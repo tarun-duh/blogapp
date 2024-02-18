@@ -1,8 +1,8 @@
-import Image from "next/image";
-import { Inter } from "next/font/google";
-
-const inter = Inter({ subsets: ["latin"] });
-
+import Login from "../components/Login";
 export default function Home() {
-  return <div>atul</div>;
+  return (
+    <div className="flex justify-center items-center root h-screen w-screen ">
+      <Login />
+    </div>
+  );
 }

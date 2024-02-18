@@ -1,3 +1,11 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.root {
+  background-image: url("../images/background1.jpg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  backdrop-filter: blur(10px);
+}
