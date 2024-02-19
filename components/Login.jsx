@@ -42,10 +42,11 @@ export default function Login() {
               value={userId}
               onChange={(e) => {
                 setUserId(e.target.value);
+                const newvalue = e.target.value;
                 const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
-                if (!emailRegex.test(userId)) {
-                  console.log(userId, emailRegex);
-                  setEmailError("please write a valid emailaddress");
+                if (!emailRegex.test(newvalue)) {
+                  console.log(newvalue, emailRegex);
+                  setEmailError("please write a valid email address");
                 } else {
                   setEmailError("");
                 }
