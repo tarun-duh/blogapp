@@ -12,10 +12,7 @@ import {
 import { auth, database, googleProvider } from "../firebase/firebaseConfig";
 
 export default function Login() {
-  // const router = useRouter();
-  // () => {
-  //   router.push("/");
-  // }
+  const router = useRouter();
   const [userId, setUserId] = useState("");
   const [emailError, setEmailError] = useState("");
   const [password, setPassword] = useState("");
@@ -39,7 +36,9 @@ export default function Login() {
       console.log(err);
     }
   };
-
+  const signup = () => {
+    router.push("signup");
+  };
   const logout = async () => {
     try {
       signOut(auth);
@@ -49,7 +48,7 @@ export default function Login() {
   };
   return (
     <>
-      <div className="shadow-2xl p-6 rounded-lg flex flex-col justify-center items-center h-1/3 w-1/4 bg-white text-white">
+      <div className="shadow-2xl p-6 rounded-lg flex flex-col justify-center items-center h-fit w-1/4 bg-white text-white overflow-hidden">
         <div className=" w-full">
           <label className=" block text-sm font-medium leading-6 text-gray-900">
             Email address
@@ -118,7 +117,7 @@ export default function Login() {
             Sign in
           </button>
           <button
-            onClick={signIn}
+            onClick={signup}
             className="my-2 flex h-10  w-2/5 justify-center rounded-md bg-orange-600 px-3 py-1.5 text-sm font-medium leading-6 text-white shadow-sm hover:bg-orange-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600"
           >
             Sign up
