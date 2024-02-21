@@ -4,7 +4,11 @@ import React from "react";
 import { useState, useRef } from "react";
 import { FcGoogle } from "react-icons/fc";
 
-import { signInWithPopup, signInWithEmailAndPassword } from "firebase/auth";
+import {
+  signInWithPopup,
+  signInWithEmailAndPassword,
+  signOut,
+} from "firebase/auth";
 import { auth, googleProvider } from "../firebase/firebaseConfig";
 
 export default function Login() {
@@ -16,6 +20,9 @@ export default function Login() {
   const error = useRef();
 
   console.log(auth?.currentUser?.email);
+  if (auth?.currentUser) {
+    router.push("blog");
+  }
   const signIn = async () => {
     try {
       await signInWithEmailAndPassword(auth, userId, password);
@@ -25,7 +32,7 @@ export default function Login() {
       console.log("loged in");
     } catch (err) {
       console.log(err);
-      console.log("error error");
+      alert("invalid email or password");
     }
   };
 
@@ -33,6 +40,8 @@ export default function Login() {
     try {
       await signInWithPopup(auth, googleProvider);
       router.push("blog");
+      setUserId("");
+      setPassword("");
     } catch (err) {
       console.log(err);
     }
