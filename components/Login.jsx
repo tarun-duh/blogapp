@@ -8,6 +8,7 @@ import {
   createUserWithEmailAndPassword,
   signInWithPopup,
   signOut,
+  signInWithEmailAndPassword,
 } from "firebase/auth";
 import { auth, database, googleProvider } from "../firebase/firebaseConfig";
 
@@ -21,11 +22,15 @@ export default function Login() {
 
   console.log(auth?.currentUser?.email);
   const signIn = async () => {
-    console.log(userId, auth, password);
     try {
-      await createUserWithEmailAndPassword(auth, userId, password);
+      await signInWithEmailAndPassword(auth, userId, password);
+      setUserId("");
+      setPassword("");
+      router.push("blog");
+      console.log("loged in");
     } catch (err) {
       console.log(err);
+      console.log("error error");
     }
   };
 
@@ -39,13 +44,7 @@ export default function Login() {
   const signup = () => {
     router.push("signup");
   };
-  const logout = async () => {
-    try {
-      signOut(auth);
-    } catch (err) {
-      console.log(err);
-    }
-  };
+
   return (
     <>
       <div className="shadow-2xl p-6 rounded-lg flex flex-col justify-center items-center h-fit w-1/4 bg-white text-white overflow-hidden">
@@ -131,9 +130,6 @@ export default function Login() {
             </button>
           </div>
         </div>
-      </div>
-      <div>
-        <button onClick={logout}>logout</button>
       </div>
     </>
   );

@@ -2,7 +2,7 @@ import React from "react";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { useState, useRef } from "react";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, signOut } from "firebase/auth";
 import { auth, database, googleProvider } from "../firebase/firebaseConfig";
 
 export default function signup() {
@@ -22,6 +22,7 @@ export default function signup() {
   const signIn = async () => {
     try {
       if (passwordError.length == 0 && emailError.length == 0) {
+        signOut(auth);
         console.log("everything looks good so now we can sign up");
         await createUserWithEmailAndPassword(auth, userId, password);
       }
