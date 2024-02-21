@@ -4,13 +4,8 @@ import React from "react";
 import { useState, useRef } from "react";
 import { FcGoogle } from "react-icons/fc";
 
-import {
-  createUserWithEmailAndPassword,
-  signInWithPopup,
-  signOut,
-  signInWithEmailAndPassword,
-} from "firebase/auth";
-import { auth, database, googleProvider } from "../firebase/firebaseConfig";
+import { signInWithPopup, signInWithEmailAndPassword } from "firebase/auth";
+import { auth, googleProvider } from "../firebase/firebaseConfig";
 
 export default function Login() {
   const router = useRouter();
@@ -37,6 +32,7 @@ export default function Login() {
   const googleSign = async () => {
     try {
       await signInWithPopup(auth, googleProvider);
+      router.push("blog");
     } catch (err) {
       console.log(err);
     }
