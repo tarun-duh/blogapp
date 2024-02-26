@@ -1,17 +1,31 @@
 import React from "react";
+import { useState } from "react";
 import { useRouter } from "next/router";
 import Image from "next/image";
 import blog from "../public/images/blog.jpg";
 import blogyou from "../public/images/newlogo.png";
+import Login from "./Login";
+import Signup from "./Signup";
 
 export default function Main() {
   const router = useRouter();
+  const [loginClicked, setLoginCliked] = useState(false);
+  const [signupClicked, setSignupCliked] = useState(false);
 
   function login() {
-    router.push("login");
+    // router.push("login");
+    console.log("login clicked");
+    setLoginCliked(true);
   }
   function signup() {
-    router.push("signup");
+    // router.push("signup");
+    console.log("signup clicked");
+    setSignupCliked(true);
+  }
+  function closePopup() {
+    console.log("hey", loginClicked);
+    setLoginCliked(false);
+    setSignupCliked(false);
   }
   return (
     <>
@@ -48,7 +62,7 @@ export default function Main() {
                   </button>
                   <button
                     onClick={signup}
-                    className="px-6 py-2 shadow-2xl shadow-slate-400 text-white transition duration-600 ease-out bg-green-900 rounded-full hover:bg-purple-800 hover:ease-in "
+                    className="px-6 py-2 shadow-2xl shadow-slate-400 text-white transition duration-600 ease-out bg-purple-800 rounded-full hover:bg-green-900 hover:ease-in "
                   >
                     Get started
                   </button>
@@ -59,23 +73,21 @@ export default function Main() {
         </header>
         <div className="h-3/4  pt-28 px-14 pb-6 w-full flex  justify-center   ">
           <div className="flex h-full flex-col w-1/2 justify-center">
-            <h1 className="text-[4.5rem] leading-[3rem] text-orange-500">
-              Stay curious.
-            </h1>
-            <p className="text-xl my-6">
+            <h1 className="text-[4.5rem]  text-orange-500">Stay curious.</h1>
+            <p className="text-xl mt-2 mb-4">
               Discover stories, thinking, and expertise from writers on any
               topic.
             </p>
             <div>
               <a
                 onClick={signup}
-                className="inline-block cursor-pointer text-white font-medium py-2 px-4 rounded-full bg-gradient-to-r from-pink-500 to-purple-800 border border-transparent transform hover:scale-110 hover:border-white transition-transform duration-3000 ease-in-out"
+                className="inline-block cursor-pointer text-white font-medium py-2 px-6 rounded-full bg-gradient-to-r from-pink-500 to-purple-800 border border-transparent transform hover:scale-110 hover:border-white transition-transform duration-3000 ease-in-out"
               >
-                Click Here
+                Start reading
               </a>
             </div>
           </div>
-          <div className="w-1/2 h-full flex justify-center items-center">
+          <div className="w-1/2 h-full flex justify-end items-center">
             <Image
               priority={true}
               src={blog}
@@ -85,6 +97,9 @@ export default function Main() {
             />
           </div>
         </div>
+        <div className="text-xl">what's trending on Blogyou</div>
+        <Login clicked={loginClicked} popup={closePopup} />
+        <Signup clicked={signupClicked} popup={closePopup} />
       </div>
     </>
   );

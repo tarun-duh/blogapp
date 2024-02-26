@@ -1,11 +1,12 @@
 import React from "react";
 import Head from "next/head";
 import { useRouter } from "next/router";
+import { IoMdClose } from "react-icons/io";
 import { useState, useRef } from "react";
 import { createUserWithEmailAndPassword, signOut } from "firebase/auth";
 import { auth, database, googleProvider } from "../firebase/firebaseConfig";
 
-export default function signup() {
+export default function Signup({ clicked, popup }) {
   const router = useRouter();
   const [userId, setUserId] = useState("");
   const [firstName, setFirstName] = useState("");
@@ -25,19 +26,32 @@ export default function signup() {
         signOut(auth);
         console.log("everything looks good so now we can sign up");
         await createUserWithEmailAndPassword(auth, userId, password);
+        router.push("blog");
       }
     } catch (err) {
       console.log(err);
+      alert("user already exists");
     }
   };
 
+  if (clicked == false) return null;
+
   return (
     <>
-      <div
-        // style={{ backgroundImage: "url('../images/background1.jpg')" }}
-        className="signup flex justify-center items-center w-screen h-screen"
-      >
-        <div className="shadow-2xl p-6 rounded-lg flex flex-col justify-center items-center h-fit w-1/4 bg-white text-black overflow-hidden">
+      <div className="overlay flex justify-center items-center w-screen h-screen">
+        <div className="relative shadow-2xl p-6 rounded-lg flex flex-col justify-center items-center h-fit w-1/4 bg-white text-black overflow-hidden">
+          <IoMdClose
+            onClick={() => {
+              setFirstName("");
+              setEmailError("");
+              setLastName("");
+              setPasswordError("");
+              setUserId("");
+              setPassword("");
+              popup();
+            }}
+            className="h-6 cursor-pointer w-6 closeButton text-black"
+          />
           <div className="w-full flex gap-2">
             <div className=" w-1/2 my-4">
               <div className="flex items-center justify-between">
