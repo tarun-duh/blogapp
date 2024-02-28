@@ -1,26 +1,32 @@
 import Head from "next/head";
 import { useRouter } from "next/router";
 import React from "react";
-import { useState, useRef, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { FcGoogle } from "react-icons/fc";
 import { IoMdClose } from "react-icons/io";
-
+import { IoMdEye } from "react-icons/io";
+import Signup from "./Signup";
 import {
   signInWithPopup,
   signInWithEmailAndPassword,
   signOut,
 } from "firebase/auth";
 import { auth, googleProvider } from "../firebase/firebaseConfig";
+import { document } from "postcss";
+import { useRef } from "react";
 
 export default function Login({ clicked, popup }) {
   const router = useRouter();
   const [userId, setUserId] = useState("");
   const [emailError, setEmailError] = useState("");
   const [password, setPassword] = useState("");
-  // const [passwordError, setPasswordError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
   const error = useRef();
+  const [showPassword, setShowPassword] = useState(false);
+  const [signupClicked, setSignupCliked] = useState(false);
 
-  console.log(auth?.currentUser?.email);
+  const divref = useRef(null);
+
   if (auth?.currentUser) {
     router.push("blog");
   }
@@ -33,7 +39,7 @@ export default function Login({ clicked, popup }) {
       console.log("loged in");
     } catch (err) {
       console.log(err);
-      alert("invalid email or password");
+      setPasswordError("invalid username or password");
     }
   };
 
@@ -47,17 +53,34 @@ export default function Login({ clicked, popup }) {
       console.log(err);
     }
   };
-  const signup = () => {
-    router.push("signup");
+
+  function closePopup() {
+    popup();
+    setSignupCliked(false);
+  }
+
+  function signup() {
+    // router.push("signup");
+    console.log("signup clicked");
+    divref.current.style.display = "none";
+    setSignupCliked(true);
+  }
+
+  const showPass = () => {
+    console.log(showPassword);
+    showPassword ? setShowPassword(false) : setShowPassword(true);
   };
+  // const errorRemove = ()=>{
+  //   passwordError("")
+  // }
 
   if (clicked == false) return null;
 
   return (
     <>
-      <div className="overlay">
-        <div className="flex justify-center items-center  h-screen w-screen ">
-          <div className="shadow-2xl p-6 rounded-lg flex flex-col justify-center items-center h-fit w-1/4 bg-white text-white overflow-hidden relative ">
+      <div ref={divref} className="overlay">
+        <div className="flex justify-center items-center  h-screen w-screen  ">
+          <div className="shadow-2xl md:px-6 pt-12 pb-6 px-5  rounded-lg flex flex-col justify-center items-center h-fit md:w-1/4 w-80 bg-white text-white overflow-hidden relative ">
             <IoMdClose
               onClick={() => {
                 setPassword("");
@@ -78,6 +101,7 @@ export default function Login({ clicked, popup }) {
                   type="email"
                   value={userId}
                   onChange={(e) => {
+                    setPasswordError("");
                     setUserId(e.target.value);
                     const newvalue = e.target.value;
                     const emailRegex =
@@ -92,7 +116,7 @@ export default function Login({ clicked, popup }) {
                       }
                     }
                   }}
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-1 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  className="block w-full p-1.5 rounded-md border-0  text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-1 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
                 <p ref={error} className="text-red-600 text-sm ">
                   {emailError}
@@ -114,45 +138,56 @@ export default function Login({ clicked, popup }) {
               </a>
             </div> */}
               </div>
-              <div className="mt-2">
+              <div className="mt-2 relative">
                 <input
                   id="password"
                   value={password}
-                  type="password"
+                  type={showPassword ? "text" : "password"}
                   onChange={(e) => {
                     setPassword(e.target.value);
+                    setPasswordError("");
                   }}
                   required
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-1 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  className="block w-full rounded-md border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-1 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
+                <IoMdEye
+                  onClick={showPass}
+                  className={`text-black h-4 w-6 absolute ${
+                    passwordError.length < 1 ? "top-1/4" : "bottom-9"
+                  }  cursor-pointer right-1`}
+                />
+                <p className="text-red-600 text-sm mt-2 ">{passwordError}</p>
               </div>
             </div>
 
-            <div className=" w-full flex gap-2">
+            <div className=" w-full flex flex-col gap-2 ">
               <button
                 onClick={signIn}
-                className="my-2 flex h-10  w-2/5 justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-medium leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                className="my-2 flex h-10  w-full justify-center rounded-full bg-indigo-600 px-3 py-1.5 text-sm font-medium leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
               >
                 Sign in
               </button>
-              <button
-                onClick={signup}
-                className="my-2 flex h-10  w-2/5 justify-center rounded-md bg-orange-600 px-3 py-1.5 text-sm font-medium leading-6 text-white shadow-sm hover:bg-orange-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600"
-              >
-                Sign up
-              </button>
-              <div className="w-1/5 flex justify-end">
+
+              <div className="w-full  ">
                 <button
                   onClick={googleSign}
-                  className="my-2 flex  items-center h-10  w-full justify-center rounded-md bg-white px-3 py-1.5 text-sm font-medium leading-6 text-white border-2  shadow-2xl hover:bg-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
+                  className="mb-2 flex   items-center h-10  w-full rounded-full bg-white px-3 py-1.5 text-sm font-medium leading-6 text-black border-2  shadow-2xl hover:bg-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
                 >
-                  <FcGoogle className="text-2xl" />
+                  <FcGoogle className="text-2xl self-start" />
+                  <p className="self-center w-full">login with google</p>
                 </button>
+                <p className="text-black text-center mt-6">
+                  don't have an account?{" "}
+                  <b onClick={signup} className="text-blue-600 cursor-pointer">
+                    sign up
+                  </b>
+                </p>
               </div>
             </div>
           </div>
         </div>
       </div>
+      <Signup clicked={signupClicked} popup={closePopup} />
     </>
   );
 }

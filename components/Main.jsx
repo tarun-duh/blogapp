@@ -6,11 +6,13 @@ import blog from "../public/images/blog.jpg";
 import blogyou from "../public/images/newlogo.png";
 import Login from "./Login";
 import Signup from "./Signup";
+import { FaUserCircle } from "react-icons/fa";
 
 export default function Main() {
   const router = useRouter();
   const [loginClicked, setLoginCliked] = useState(false);
   const [signupClicked, setSignupCliked] = useState(false);
+  const [hamburgerOn, setfirstHamburgerOn] = useState(false);
 
   function login() {
     // router.push("login");
@@ -23,7 +25,7 @@ export default function Main() {
     setSignupCliked(true);
   }
   function closePopup() {
-    console.log("hey", loginClicked);
+    console.log("hey", "close clicked");
     setLoginCliked(false);
     setSignupCliked(false);
   }
@@ -31,12 +33,13 @@ export default function Main() {
     <>
       <div className="w-full h-screen ">
         <header>
-          <nav className="fixed inset-x-0 top-0 z-10 w-full px-6 py-6  bg-white shadow-md border-slate-500  transition ">
+          <nav className="fixed inset-x-0 top-0 z-10 w-full p-4 sm:p-6 bg-white shadow-md border-slate-500  transition ">
             <div className="flex justify-between ">
               <div className="flex">
-                <div className="text-[1.5rem] leading-[3rem] tracking-tight font-semibold text-black dark:text-white">
+                <div className="text-[1.5rem]   leading-[3rem] tracking-tight font-semibold text-black ">
                   <a href="/">
                     <Image
+                      className="w-30 md:w-48"
                       priority={true}
                       src={blogyou}
                       alt="My Image"
@@ -46,7 +49,13 @@ export default function Main() {
                   </a>
                 </div>
               </div>
-              <div className="flex">
+              <div className="md:hidden p-1 h-9 flex items-center justify-center">
+                <FaUserCircle
+                  onClick={login}
+                  className="text-orange-400 text-2xl "
+                />
+              </div>
+              <div className="md:flex hidden">
                 <div className="text-[1rem] leading-[3rem] tracking-tight  text-black dark:text-white">
                   <blogyou />
                 </div>
@@ -56,7 +65,7 @@ export default function Main() {
                     // style={{
                     //   backgroundColor: "#4A732D",
                     // }}
-                    className="px-6 py-2  text-white transition duration-700 ease-out  bg-orange-500 border border-white rounded-full hover:bg-blue-800 hover:border hover:text-white  "
+                    className="px-5 py-2  text-black   bg-white border border-white rounded-full hover:border-black hover:border hover:text-gray-450  "
                   >
                     Sign in
                   </button>
@@ -71,9 +80,11 @@ export default function Main() {
             </div>
           </nav>
         </header>
-        <div className="h-3/4  pt-28 px-14 pb-6 w-full flex  justify-center   ">
-          <div className="flex h-full flex-col w-1/2 justify-center">
-            <h1 className="text-[4.5rem]  text-orange-500">Stay curious.</h1>
+        <div className="md:h-3/4 h-96  md:pt-28 md:px-11 pt-10 px-5 pb-6 w-full flex  justify-center   ">
+          <div className="flex h-full w-full flex-col md:w-1/2 justify-center">
+            <h1 className="text-3xl font-bold md:text-6xl md:mb-2  text-orange-500">
+              Stay curious.
+            </h1>
             <p className="text-xl mt-2 mb-4">
               Discover stories, thinking, and expertise from writers on any
               topic.
@@ -87,8 +98,9 @@ export default function Main() {
               </a>
             </div>
           </div>
-          <div className="w-1/2 h-full flex justify-end items-center">
+          <div className="hidden w-3/5 h-full md:flex justify-end items-center">
             <Image
+              className="w-96 md:w-2/3"
               priority={true}
               src={blog}
               alt="My Image"

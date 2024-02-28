@@ -5,6 +5,8 @@ import { IoMdClose } from "react-icons/io";
 import { useState, useRef } from "react";
 import { createUserWithEmailAndPassword, signOut } from "firebase/auth";
 import { auth, database, googleProvider } from "../firebase/firebaseConfig";
+import { IoMdEye } from "react-icons/io";
+import Login from "./Login";
 
 export default function Signup({ clicked, popup }) {
   const router = useRouter();
@@ -15,6 +17,9 @@ export default function Signup({ clicked, popup }) {
   const [password, setPassword] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const error = useRef();
+  const [showPassword, setShowPassword] = useState(false);
+  const [loginClicked, setLoginCliked] = useState(false);
+  const divref = useRef(null);
 
   //current user
   console.log(auth?.currentUser?.email);
@@ -33,13 +38,29 @@ export default function Signup({ clicked, popup }) {
       alert("user already exists");
     }
   };
+  const showPass = () => {
+    console.log(showPassword);
+    showPassword ? setShowPassword(false) : setShowPassword(true);
+  };
+  function closePopup() {
+    popup();
+    setLoginCliked(false);
+  }
+  function login() {
+    divref.current.style.display = "none";
+    console.log("login clicked");
+    setLoginCliked(true);
+  }
 
   if (clicked == false) return null;
 
   return (
     <>
-      <div className="overlay flex justify-center items-center w-screen h-screen">
-        <div className="relative shadow-2xl p-6 rounded-lg flex flex-col justify-center items-center h-fit w-1/4 bg-white text-black overflow-hidden">
+      <div
+        ref={divref}
+        className="overlay flex justify-center items-center w-screen h-screen"
+      >
+        <div className="relative shadow-2xl md:p-6 p-5 rounded-lg flex flex-col justify-center items-center h-fit md:w-1/4 w-80 bg-white text-black overflow-hidden">
           <IoMdClose
             onClick={() => {
               setFirstName("");
@@ -68,7 +89,7 @@ export default function Signup({ clicked, popup }) {
                   }}
                   type="text"
                   required
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-1 focus:ring-inset focus:ring-orange-600 sm:text-sm sm:leading-6"
+                  className="block w-full rounded-md border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-1 focus:ring-inset focus:ring-orange-600 sm:text-sm sm:leading-6"
                 />
               </div>
             </div>
@@ -87,7 +108,7 @@ export default function Signup({ clicked, popup }) {
                   }}
                   type="text"
                   required
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-1 focus:ring-inset focus:ring-orange-600 sm:text-sm sm:leading-6"
+                  className="block w-full rounded-md border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-1 focus:ring-inset focus:ring-orange-600 sm:text-sm sm:leading-6"
                 />
               </div>
             </div>
@@ -116,7 +137,7 @@ export default function Signup({ clicked, popup }) {
                     }
                   }
                 }}
-                className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-1 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                className="block w-full rounded-md border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-1 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
               />
               <p ref={error} className="text-red-600 text-sm mt-2 ">
                 {emailError}
@@ -130,11 +151,11 @@ export default function Signup({ clicked, popup }) {
                 Create Password
               </label>
             </div>
-            <div className="mt-2">
+            <div className="mt-2 relative">
               <input
                 id="password"
                 value={password}
-                type="password"
+                type={showPassword ? "text" : "password"}
                 onChange={(e) => {
                   let newvalue = e.target.value;
                   setPassword(newvalue);
@@ -145,7 +166,13 @@ export default function Signup({ clicked, popup }) {
                   }
                 }}
                 required
-                className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-1 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                className="block w-full rounded-md border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-1 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+              />
+              <IoMdEye
+                onClick={showPass}
+                className={`text-black h-4 w-6  absolute  cursor-pointer right-1 ${
+                  passwordError.length < 1 ? "top-1/4" : "bottom-9"
+                }`}
               />
               <p className="text-red-600 text-sm mt-2">{passwordError}</p>
             </div>
@@ -159,8 +186,17 @@ export default function Signup({ clicked, popup }) {
               Sign up
             </button>
           </div>
+          <div>
+            <p className="text-black text-center mt-2">
+              Already have an account?
+              <b onClick={login} className="text-blue-600 mx-2 cursor-pointer">
+                Sign in
+              </b>
+            </p>
+          </div>
         </div>
       </div>
+      <Login clicked={loginClicked} popup={closePopup} />
     </>
   );
 }
