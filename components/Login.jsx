@@ -39,7 +39,15 @@ export default function Login({ clicked, popup }) {
       console.log("loged in");
     } catch (err) {
       console.log(err);
-      setPasswordError("invalid username or password");
+      if (userId.length > 0 || password.length > 0) {
+        console.log("if");
+        setPasswordError("invalid username or password");
+      } else {
+        console.log("else");
+        setPasswordError(
+          "Please fill in both the user ID and password fields."
+        );
+      }
     }
   };
 
@@ -80,7 +88,7 @@ export default function Login({ clicked, popup }) {
     <>
       <div ref={divref} className="overlay">
         <div className="flex justify-center items-center  h-screen w-screen  ">
-          <div className="shadow-2xl md:px-6 pt-12 pb-6 px-5  rounded-lg flex flex-col justify-center items-center h-fit md:w-1/4 w-80 bg-white text-white overflow-hidden relative ">
+          <div className="shadow-2xl md:px-6 pt-12 pb-6 px-5  rounded-lg flex flex-col justify-center items-center h-fit md:w-1/2 lg:w-1/4 w-80 bg-white text-white overflow-hidden relative ">
             <IoMdClose
               onClick={() => {
                 setPassword("");
@@ -163,6 +171,7 @@ export default function Login({ clicked, popup }) {
             <div className=" w-full flex flex-col gap-2 ">
               <button
                 onClick={signIn}
+                type="submit"
                 className="my-2 flex h-10  w-full justify-center rounded-full bg-indigo-600 px-3 py-1.5 text-sm font-medium leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
               >
                 Sign in

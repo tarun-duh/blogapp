@@ -34,8 +34,12 @@ export default function Signup({ clicked, popup }) {
         router.push("blog");
       }
     } catch (err) {
+      if (userId.length > 0 && password.length > 0 && firstName.length > 0) {
+        setPasswordError("user already exists");
+      } else {
+        setPasswordError("Please fill in  the required fields.");
+      }
       console.log(err);
-      alert("user already exists");
     }
   };
   const showPass = () => {
@@ -77,7 +81,7 @@ export default function Signup({ clicked, popup }) {
             <div className=" w-1/2 my-4">
               <div className="flex items-center justify-between">
                 <label className="block text-sm font-medium leading-6 text-gray-900">
-                  First name
+                  First name*
                 </label>
               </div>
               <div className="mt-2">
@@ -115,7 +119,7 @@ export default function Signup({ clicked, popup }) {
           </div>
           <div className=" w-full">
             <label className=" block text-sm font-medium leading-6 text-gray-900">
-              Email address
+              Email address*
             </label>
             <div className="mt-2">
               <input
@@ -148,7 +152,7 @@ export default function Signup({ clicked, popup }) {
           <div className=" w-full my-2">
             <div className="flex items-center justify-between">
               <label className="block text-sm font-medium leading-6 text-gray-900">
-                Create Password
+                Create Password*
               </label>
             </div>
             <div className="mt-2 relative">
