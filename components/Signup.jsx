@@ -64,7 +64,7 @@ export default function Signup({ clicked, popup }) {
         ref={divref}
         className="overlay flex justify-center items-center w-screen h-screen"
       >
-        <div className="relative shadow-2xl md:p-6 p-5 rounded-lg flex flex-col justify-center items-center h-fit md:w-1/4 w-80 bg-white text-black overflow-hidden">
+        <div className="relative shadow-2xl md:p-6 p-5 rounded-lg flex flex-col justify-center items-center h-fit md:w-1/2 lg:w-1/4 w-80 bg-white text-black overflow-hidden">
           <IoMdClose
             onClick={() => {
               setFirstName("");

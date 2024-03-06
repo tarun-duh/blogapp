@@ -88,7 +88,7 @@ export default function Login({ clicked, popup }) {
     <>
       <div ref={divref} className="overlay">
         <div className="flex justify-center items-center  h-screen w-screen  ">
-          <div className="shadow-2xl md:px-6 pt-12 pb-6 px-5  rounded-lg flex flex-col justify-center items-center h-fit md:w-1/2 lg:w-1/4 w-80 bg-white text-white overflow-hidden relative ">
+          <div className="shadow-2xl md:px-6 pt-12 pb-6 px-5  rounded-lg flex flex-col justify-center items-center h-fit md:w-1/2 lg:w-1/4 w-80 bg-white text-white overflow-hidden relative ease-in ">
             <IoMdClose
               onClick={() => {
                 setPassword("");
