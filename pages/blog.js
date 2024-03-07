@@ -41,7 +41,7 @@ export default function blog() {
       console.log(err);
     }
   };
-  console.log(postList[0].category);
+  console.log(postList.length > 0 ? postList[0].category : null);
   return (
     <div className="bg-white h-screen w-screen ">
       <header className=" w-full shadow-sm ">
@@ -86,16 +86,19 @@ export default function blog() {
           </div>
         </div>
       </header>
-      <div className="w-full md:flex flex-wrap p-4 justify-center gap-3">
-        <BlogPosts
-          category="Sports"
-          heading="Top ten best football player "
-          para="alsnajskdjasdlsmxnasijnxiasnchsuhcccsac askjcna aiusnakscc asca"
-          author="Tarun singh"
-          date="06/03/2024"
-          profile=""
-        />
-        <BlogPosts category={postList.category} />
+      <div className="w-full md:flex lg:flex flex-wrap p-4 justify-center gap-3">
+        {postList.map((post) => (
+          <BlogPosts
+            key={post.id}
+            category={post.category}
+            heading={post.heading}
+            para={post.paragraph}
+            author={post.author}
+            date={post.date}
+            profile={post.profile}
+            likes={post.likes}
+          />
+        ))}
       </div>
       <div className=" bg-white p-8 rounded-lg shadow-md  mt-3">
         <h1 className="text-3xl font-bold mb-4">Welcome to Our Website</h1>
