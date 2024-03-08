@@ -44,8 +44,6 @@ export default function blog() {
   };
   console.log(postList.length > 0 ? postList[0].category : null);
 
-  // if (!auth?.currentUser) return router.push("/");
-
   return (
     <div className="bg-white ">
       <header className=" w-full shadow-sm ">

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import blogyou from "../public/images/newlogo.png";
 import Image from "next/image";
 import { FaUserCircle } from "react-icons/fa";
@@ -12,32 +12,45 @@ export default function write() {
   const [title, setTitle] = useState("");
   const [paraIn, setParaIn] = useState("");
   const [userId, setUserId] = useState("");
-  const author = auth?.currentUser?.email;
+  const [author, setAuthor] = useState("anonymous");
 
   const postcollections = collection(database, "post");
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      if (user) {
+        console.log(auth?.currentUser);
+        setAuthor(user.displayName);
+      }
+    });
+    return () => unsubscribe();
+  }, []);
 
-  console.log(auth?.currentUser?.email, "author");
   const publishfunc = async () => {
-    try {
-      let currentDate = new Date();
-      let dateInString = currentDate.toLocaleDateString(undefined, {
-        year: "numeric",
-        month: "numeric",
-        day: "numeric",
-      });
-      console.log("hey public func", title, paraIn, categoryIn);
-      await addDoc(postcollections, {
-        author: author,
-        heading: title,
-        paragraph: paraIn,
-        date: dateInString,
-        category: categoryIn,
-      });
-      router.push("/blog");
-    } catch (err) {
-      console.log(err);
+    if (title.length < 1 || paraIn.length < 1 || categoryIn.length < 1) {
+      alert("please fill the inputs");
+    } else {
+      try {
+        let currentDate = new Date();
+        let dateInString = currentDate.toLocaleDateString(undefined, {
+          year: "numeric",
+          month: "numeric",
+          day: "numeric",
+        });
+        console.log("hey public func", title, paraIn, categoryIn);
+        await addDoc(postcollections, {
+          author: author,
+          heading: title,
+          paragraph: paraIn,
+          date: dateInString,
+          category: categoryIn,
+        });
+        router.push("/blog");
+      } catch (err) {
+        console.log(err);
+      }
     }
   };
+  console.log(author, "hey");
 
   return (
     <div className="h-screen w-screen">
