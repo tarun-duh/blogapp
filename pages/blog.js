@@ -47,7 +47,7 @@ export default function blog() {
   // if (!auth?.currentUser) return router.push("/");
 
   return (
-    <div className="bg-white h-screen w-screen ">
+    <div className="bg-white ">
       <header className=" w-full shadow-sm ">
         <div className=" w-full  flex  p-5  items-center justify-between ">
           <div className="flex justify-center items-center">
@@ -90,7 +90,7 @@ export default function blog() {
           </div>
         </div>
       </header>
-      <div className="w-full md:flex lg:flex flex-wrap p-4  gap-3">
+      <div className="w-full md:flex lg:flex flex-wrap p-4  gap-3 overflow-hidden">
         {postList.map((post) => (
           <BlogPosts
             key={post.id}
