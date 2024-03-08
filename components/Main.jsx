@@ -15,23 +15,24 @@ export default function Main() {
   const [signupClicked, setSignupCliked] = useState(false);
   const [hamburgerOn, setfirstHamburgerOn] = useState(false);
 
-  console.log(auth?.currentUser?.email, "user");
-  if (auth?.currentUser) {
-    router.push("blog");
-  }
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      if (user) {
+        router.push("blog");
+      }
+    });
+
+    return () => unsubscribe();
+  }, []);
 
   function login() {
-    // router.push("login");
-    console.log("login clicked");
     setLoginCliked(true);
   }
+
   function signup() {
-    // router.push("signup");
-    console.log("signup clicked");
     setSignupCliked(true);
   }
   function closePopup() {
-    console.log("hey", "close clicked");
     setLoginCliked(false);
     setSignupCliked(false);
   }
@@ -116,8 +117,8 @@ export default function Main() {
           </div>
         </div>
         <div className="text-xl">what's trending on Blogyou</div>
-        <Login clicked={loginClicked} popup={closePopup} />
-        <Signup clicked={signupClicked} popup={closePopup} />
+        {loginClicked && <Login clicked={loginClicked} popup={closePopup} />}
+        {signupClicked && <Signup clicked={signupClicked} popup={closePopup} />}
       </div>
     </>
   );
