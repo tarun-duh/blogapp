@@ -13,6 +13,7 @@ import { getDocs, collection } from "firebase/firestore";
 export default function blog() {
   const [postList, setPostList] = useState([]);
   const postcollections = collection(database, "post");
+  const router = useRouter();
 
   useEffect(() => {
     let getPostList = async () => {
@@ -33,7 +34,6 @@ export default function blog() {
     getPostList();
   }, []);
 
-  const router = useRouter();
   const logout = async () => {
     try {
       signOut(auth);
@@ -43,6 +43,9 @@ export default function blog() {
     }
   };
   console.log(postList.length > 0 ? postList[0].category : null);
+
+  // if (!auth?.currentUser) return router.push("/");
+
   return (
     <div className="bg-white h-screen w-screen ">
       <header className=" w-full shadow-sm ">

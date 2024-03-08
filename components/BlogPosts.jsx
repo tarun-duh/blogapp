@@ -23,7 +23,7 @@ export default function BlogPosts({
     }
   };
   return (
-    <div className="p-6 w-[48%]  flex flex-col items-start bg-slate-50  rounded-lg">
+    <div className="p-6 w-[46%]  flex flex-col items-start bg-slate-50  rounded-lg">
       <span className="inline-block py-1 px-2 rounded bg-indigo-50 text-indigo-500 text-xs font-medium tracking-widest">
         {category}
       </span>
