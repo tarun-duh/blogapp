@@ -12,7 +12,6 @@ import {
   signOut,
 } from "firebase/auth";
 import { auth, googleProvider } from "../firebase/firebaseConfig";
-import { document } from "postcss";
 import { useRef } from "react";
 
 export default function Login({ clicked, popup }) {
@@ -26,10 +25,10 @@ export default function Login({ clicked, popup }) {
   const [signupClicked, setSignupCliked] = useState(false);
 
   const divref = useRef(null);
-  if (auth?.currentUser) {
-    console.log("loged in", auth?.currentUser?.email);
-    router.push("blog");
-  }
+  useEffect(() => {
+    auth?.currentUser && router.push("blog");
+  }, [auth?.currentUser])
+
 
   const signIn = async () => {
     try {
@@ -40,10 +39,8 @@ export default function Login({ clicked, popup }) {
     } catch (err) {
       console.log(err);
       if (userId.length > 0 || password.length > 0) {
-        console.log("if");
         setPasswordError("invalid username or password");
       } else {
-        console.log("else");
         setPasswordError(
           "Please fill in both the user ID and password fields."
         );
@@ -68,7 +65,6 @@ export default function Login({ clicked, popup }) {
   }
 
   function signup() {
-    // router.push("signup");
     console.log("signup clicked");
     divref.current.style.display = "none";
     setSignupCliked(true);
@@ -78,9 +74,6 @@ export default function Login({ clicked, popup }) {
     console.log(showPassword);
     showPassword ? setShowPassword(false) : setShowPassword(true);
   };
-  // const errorRemove = ()=>{
-  //   passwordError("")
-  // }
 
   if (clicked == false) return null;
 
@@ -160,9 +153,8 @@ export default function Login({ clicked, popup }) {
                 />
                 <IoMdEye
                   onClick={showPass}
-                  className={`text-black h-4 w-6 absolute ${
-                    passwordError.length < 1 ? "top-1/4" : "bottom-9"
-                  }  cursor-pointer right-1`}
+                  className={`text-black h-4 w-6 absolute ${passwordError.length < 1 ? "top-1/4" : "bottom-9"
+                    }  cursor-pointer right-1`}
                 />
                 <p className="text-red-600 text-sm mt-2 ">{passwordError}</p>
               </div>
@@ -170,7 +162,7 @@ export default function Login({ clicked, popup }) {
 
             <div className=" w-full flex flex-col gap-2 ">
               <button
-                onClick={signIn}
+                onClick={() => signIn()}
                 type="submit"
                 className="my-2 flex h-10  w-full justify-center rounded-full bg-indigo-600 px-3 py-1.5 text-sm font-medium leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
               >
@@ -179,7 +171,7 @@ export default function Login({ clicked, popup }) {
 
               <div className="w-full  ">
                 <button
-                  onClick={googleSign}
+                  onClick={() => googleSign()}
                   className="mb-2 flex   items-center h-10  w-full rounded-full bg-white px-3 py-1.5 text-sm font-medium leading-6 text-black border-2  shadow-2xl hover:bg-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
                 >
                   <FcGoogle className="text-2xl self-start" />
@@ -196,7 +188,7 @@ export default function Login({ clicked, popup }) {
           </div>
         </div>
       </div>
-      <Signup clicked={signupClicked} popup={closePopup} />
+      {signupClicked && <Signup clicked={signupClicked} popup={closePopup} />}
     </>
   );
 }
