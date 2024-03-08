@@ -24,6 +24,7 @@ export default function blog() {
         }));
         console.log(filterData);
         setPostList(filterData);
+
         // setPostList(ftrData);
       } catch (err) {
         console.error("Error getting documents: ", err);
@@ -86,7 +87,7 @@ export default function blog() {
           </div>
         </div>
       </header>
-      <div className="w-full md:flex lg:flex flex-wrap p-4 justify-center gap-3">
+      <div className="w-full md:flex lg:flex flex-wrap p-4  gap-3">
         {postList.map((post) => (
           <BlogPosts
             key={post.id}

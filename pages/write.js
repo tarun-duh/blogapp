@@ -3,7 +3,7 @@ import blogyou from "../public/images/newlogo.png";
 import Image from "next/image";
 import { FaUserCircle } from "react-icons/fa";
 import { useRouter } from "next/router";
-import { database } from "../firebase/firebaseConfig";
+import { database, auth } from "../firebase/firebaseConfig";
 import { getDocs, collection, addDoc } from "firebase/firestore";
 
 export default function write() {
@@ -11,22 +11,29 @@ export default function write() {
   const [categoryIn, setCategoryIn] = useState("");
   const [title, setTitle] = useState("");
   const [paraIn, setParaIn] = useState("");
-  const [date, setDate] = useState("");
   const [userId, setUserId] = useState("");
-  const [author, setAuthor] = useState("anonymus");
+  const author = auth?.currentUser?.email;
 
   const postcollections = collection(database, "post");
-  let todayDate = "";
 
+  console.log(auth?.currentUser?.email, "author");
   const publishfunc = async () => {
     try {
-      console.log("hey public func");
+      let currentDate = new Date();
+      let dateInString = currentDate.toLocaleDateString(undefined, {
+        year: "numeric",
+        month: "numeric",
+        day: "numeric",
+      });
+      console.log("hey public func", title, paraIn, categoryIn);
       await addDoc(postcollections, {
         author: author,
-        title: title,
-        para: paraIn,
-        date: todayDate,
+        heading: title,
+        paragraph: paraIn,
+        date: dateInString,
+        category: categoryIn,
       });
+      router.push("/blog");
     } catch (err) {
       console.log(err);
     }

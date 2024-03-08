@@ -26,17 +26,17 @@ export default function Login({ clicked, popup }) {
   const [signupClicked, setSignupCliked] = useState(false);
 
   const divref = useRef(null);
-
   if (auth?.currentUser) {
+    console.log("loged in", auth?.currentUser?.email);
     router.push("blog");
   }
+
   const signIn = async () => {
     try {
       await signInWithEmailAndPassword(auth, userId, password);
       setUserId("");
       setPassword("");
       router.push("blog");
-      console.log("loged in");
     } catch (err) {
       console.log(err);
       if (userId.length > 0 || password.length > 0) {

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import { useRouter } from "next/router";
 import Image from "next/image";
@@ -7,12 +7,18 @@ import blogyou from "../public/images/newlogo.png";
 import Login from "./Login";
 import Signup from "./Signup";
 import { FaUserCircle } from "react-icons/fa";
+import { auth, googleProvider } from "../firebase/firebaseConfig";
 
 export default function Main() {
   const router = useRouter();
   const [loginClicked, setLoginCliked] = useState(false);
   const [signupClicked, setSignupCliked] = useState(false);
   const [hamburgerOn, setfirstHamburgerOn] = useState(false);
+
+  console.log(auth?.currentUser?.email, "user");
+  if (auth?.currentUser) {
+    router.push("blog");
+  }
 
   function login() {
     // router.push("login");
