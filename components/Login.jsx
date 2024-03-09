@@ -24,7 +24,7 @@ export default function Login({ clicked, popup }) {
   const error = useRef();
   const [showPassword, setShowPassword] = useState(false);
   const [signupClicked, setSignupCliked] = useState(false);
-  const userCollections = collection(database, "user");
+  const userCollections = collection(database, "users");
 
   const divref = useRef(null);
   // useEffect(() => {
@@ -48,17 +48,14 @@ export default function Login({ clicked, popup }) {
       }
     }
   };
-  console.log(auth);
   const googleSign = async () => {
     try {
       await signInWithPopup(auth, googleProvider);
       router.push("blog");
       await addDoc(userCollections, {
-        email: userId,
-        heading: title,
-        paragraph: paraIn,
-        date: dateInString,
-        category: categoryIn,
+        email: auth?.currentUser?.email,
+        password: password,
+        username: auth?.currentUser?.displayName,
       });
       setUserId("");
       setPassword("");

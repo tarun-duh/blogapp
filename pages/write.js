@@ -18,7 +18,7 @@ export default function write() {
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
       if (user) {
-        console.log(auth?.currentUser);
+        console.log(auth?.currentUser?.email, "hey you");
         setAuthor(user.displayName);
       }
     });
@@ -43,6 +43,7 @@ export default function write() {
           paragraph: paraIn,
           date: dateInString,
           category: categoryIn,
+          useremail: auth?.currentUser?.email,
         });
         router.push("/blog");
       } catch (err) {

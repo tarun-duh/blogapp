@@ -7,6 +7,7 @@ import { createUserWithEmailAndPassword, signOut } from "firebase/auth";
 import { auth, database, googleProvider } from "../firebase/firebaseConfig";
 import { IoMdEye } from "react-icons/io";
 import Login from "./Login";
+import { collection, addDoc, getDocs } from "firebase/firestore";
 
 export default function Signup({ clicked, popup }) {
   const router = useRouter();
@@ -20,18 +21,24 @@ export default function Signup({ clicked, popup }) {
   const [showPassword, setShowPassword] = useState(false);
   const [loginClicked, setLoginCliked] = useState(false);
   const divref = useRef(null);
+  const userCollections = collection(database, "users");
 
   //current user
   console.log(auth?.currentUser?.email);
 
-  //sign in function
-  const signIn = async () => {
+  //sign up function
+  const signUp = async () => {
     try {
       if (passwordError.length == 0 && emailError.length == 0) {
         signOut(auth);
         console.log("everything looks good so now we can sign up");
         await createUserWithEmailAndPassword(auth, userId, password);
         router.push("blog");
+        await addDoc(userCollections, {
+          email: auth?.currentUser?.email,
+          password: password,
+          username: firstName + " " + LastName,
+        });
       }
     } catch (err) {
       if (userId.length > 0 && password.length > 0 && firstName.length > 0) {
@@ -184,7 +191,7 @@ export default function Signup({ clicked, popup }) {
 
           <div className=" w-full flex justify-center">
             <button
-              onClick={signIn}
+              onClick={signUp}
               className="my-2 flex h-11  w-3/5 justify-center items-center rounded-md bg-orange-600 px-3 py-1.5 text-sm font-medium leading-6 text-white shadow-sm hover:bg-orange-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600"
             >
               Sign up

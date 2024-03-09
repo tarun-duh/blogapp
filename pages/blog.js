@@ -13,6 +13,8 @@ import { getDocs, collection } from "firebase/firestore";
 export default function blog() {
   const [postList, setPostList] = useState([]);
   const postcollections = collection(database, "post");
+  const userCollections = collection(database, "users");
+
   const router = useRouter();
 
   useEffect(() => {
@@ -26,6 +28,17 @@ export default function blog() {
         }));
         console.log(filterData);
         setPostList(filterData);
+        let usersdata = await getDocs(userCollections);
+        const filterUsers = usersdata.docs.map((doc) => ({
+          ...doc.data(),
+          id: doc.id,
+        }));
+        filterUsers.map((user) => {
+          console.log(user.email, "these are all the users");
+          if (user.email == auth?.currentUser?.email) {
+            console.log(user.email, "logged in user is this one");
+          }
+        });
 
         // setPostList(ftrData);
       } catch (err) {
@@ -46,8 +59,8 @@ export default function blog() {
   console.log(postList.length > 0 ? postList[0].category : null);
   if (typeof window !== "undefined" && !auth?.currentUser) router.push("/");
   return (
-    <div className="bg-white ">
-      <header className=" w-full shadow-sm ">
+    <div className="bg-white">
+      <header className=" fixed top-0 bg-white w-full shadow-sm  ">
         <div className=" w-full  flex  p-5  items-center justify-between ">
           <div className="flex justify-center items-center">
             <a
@@ -89,7 +102,7 @@ export default function blog() {
           </div>
         </div>
       </header>
-      <div className="w-full md:flex lg:flex flex-wrap p-4  gap-3 overflow-hidden">
+      <div className="0 mt-20 w-full md:flex lg:flex flex-wrap lg:pr-4 lg:pl-8 p-6  gap-3 ">
         {postList.map((post) => (
           <BlogPosts
             key={post.id}
