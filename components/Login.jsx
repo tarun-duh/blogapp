@@ -11,7 +11,8 @@ import {
   signInWithEmailAndPassword,
   signOut,
 } from "firebase/auth";
-import { auth, googleProvider } from "../firebase/firebaseConfig";
+import { auth, googleProvider, database } from "../firebase/firebaseConfig";
+import { collection, addDoc } from "firebase/firestore";
 import { useRef } from "react";
 
 export default function Login({ clicked, popup }) {
@@ -23,12 +24,12 @@ export default function Login({ clicked, popup }) {
   const error = useRef();
   const [showPassword, setShowPassword] = useState(false);
   const [signupClicked, setSignupCliked] = useState(false);
+  const userCollections = collection(database, "user");
 
   const divref = useRef(null);
-  useEffect(() => {
-    auth?.currentUser && router.push("blog");
-  }, [auth?.currentUser])
-
+  // useEffect(() => {
+  //   auth?.currentUser && router.push("blog");
+  // }, [auth?.currentUser]);
 
   const signIn = async () => {
     try {
@@ -47,11 +48,18 @@ export default function Login({ clicked, popup }) {
       }
     }
   };
-
+  console.log(auth);
   const googleSign = async () => {
     try {
       await signInWithPopup(auth, googleProvider);
       router.push("blog");
+      await addDoc(userCollections, {
+        email: userId,
+        heading: title,
+        paragraph: paraIn,
+        date: dateInString,
+        category: categoryIn,
+      });
       setUserId("");
       setPassword("");
     } catch (err) {
@@ -153,8 +161,9 @@ export default function Login({ clicked, popup }) {
                 />
                 <IoMdEye
                   onClick={showPass}
-                  className={`text-black h-4 w-6 absolute ${passwordError.length < 1 ? "top-1/4" : "bottom-9"
-                    }  cursor-pointer right-1`}
+                  className={`text-black h-4 w-6 absolute ${
+                    passwordError.length < 1 ? "top-1/4" : "bottom-9"
+                  }  cursor-pointer right-1`}
                 />
                 <p className="text-red-600 text-sm mt-2 ">{passwordError}</p>
               </div>

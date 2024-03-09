@@ -14,7 +14,7 @@ export default function write() {
   const [userId, setUserId] = useState("");
   const [author, setAuthor] = useState("anonymous");
 
-  const postcollections = collection(database, "post");
+  const postCollections = collection(database, "post");
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
       if (user) {
@@ -37,7 +37,7 @@ export default function write() {
           day: "numeric",
         });
         console.log("hey public func", title, paraIn, categoryIn);
-        await addDoc(postcollections, {
+        await addDoc(postCollections, {
           author: author,
           heading: title,
           paragraph: paraIn,

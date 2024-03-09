@@ -17,6 +17,7 @@ export default function blog() {
 
   useEffect(() => {
     let getPostList = async () => {
+      console.log(auth);
       try {
         let listData = await getDocs(postcollections);
         const filterData = listData.docs.map((doc) => ({
@@ -43,7 +44,7 @@ export default function blog() {
     }
   };
   console.log(postList.length > 0 ? postList[0].category : null);
-
+  if (typeof window !== "undefined" && !auth?.currentUser) router.push("/");
   return (
     <div className="bg-white ">
       <header className=" w-full shadow-sm ">
