@@ -13,7 +13,7 @@ export default function Header({ login, signup, publish }) {
   return (
     <div>
       <header className=" fixed top-0 bg-white w-full shadow-sm shadow-slate-200  ">
-        <div className=" w-full  flex  p-5  items-center justify-between ">
+        <div className=" w-full  flex  md:p-5 lg:p-5 px-3  py-5  items-center justify-between ">
           <div className="flex justify-center items-center">
             <a
               onClick={() => {
@@ -25,19 +25,32 @@ export default function Header({ login, signup, publish }) {
               className="cursor-pointer   flex title-font font-medium items-center  justify-center text-gray-900  "
             >
               <Image
-                className="w-30 md:w-48"
+                className="w-30 md:w-48 hidden md:block lg:block"
                 priority={true}
                 src={blogyou}
                 alt="My Image"
                 width={180}
                 height={"auto"}
               />
+              {(currentPage === "/write" || currentPage === "/profile") && (
+                <Image
+                  onClick={() => {
+                    router.push("/blog");
+                  }}
+                  className="w-30 md:w-48  md:hidden lg:hidden"
+                  priority={true}
+                  src={blogyou}
+                  alt="My Image"
+                  width={180}
+                  height={"auto"}
+                />
+              )}
             </a>
             {currentPage === "/blog" && (
               <input
                 type="text"
                 placeholder="search"
-                className="h-auto w-auto bg-gray-100 ml-6 rounded-full px-3 py-2 text-sm focus:outline-none"
+                className="h-auto w-auto bg-gray-100 lg:ml-6 md:ml-6  rounded-full px-3 py-2 text-sm focus:outline-none"
               />
             )}
           </div>
@@ -55,18 +68,25 @@ export default function Header({ login, signup, publish }) {
                 </a>
               </nav>
             )}
-            {currentPage === "blog" && (
-              <button className="inline-flex items-center  border-0 py-1 px-3 focus:outline-none hover:bg-gray-200 rounded text-base  ">
-                <FaUserCircle className="text-3xl text-orange-500" />
+            {currentPage === "/blog" && (
+              <button className=" items-center  md:inline-flex  border-0 py-1 px-1 md:px-3 focus:outline-none hover:bg-gray-200 rounded text-base  ">
+                <FaUserCircle
+                  onClick={() => {
+                    router.push("/profile");
+                  }}
+                  className="text-3xl text-orange-500 "
+                />
               </button>
             )}
-            <div className="md:hidden p-1 h-9 flex items-center justify-center">
-              <FaUserCircle
-                onClick={login}
-                className="text-orange-400 text-2xl "
-              />
-            </div>
-            <div className="md:flex hidden">
+            {currentPage === "/" && (
+              <div className="md:hidden p-1 h-9 flex items-center justify-center">
+                <FaUserCircle
+                  onClick={login}
+                  className="text-orange-400 text-2xl "
+                />
+              </div>
+            )}
+            <div className="md:flex ">
               {currentPage === "/" && (
                 <div className="flex items-center space-x-4 text-base font-medium tracking-tight">
                   <button

@@ -90,7 +90,7 @@ export default function write() {
             </div>
           </div>
         </header> */}
-        <div className="w-full  h-4/5 pt-32 px-10 pb-10">
+        <div className="w-full  h-4/5 md:pt-32 md:px-10 md:pb-10 pt-24 px-4 pb-10">
           <input
             className="w-full font-serif  outline-none  border-b-2 border-gray-100 p-3  break-all text-lg"
             type="text"

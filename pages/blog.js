@@ -37,13 +37,13 @@ export default function blog() {
       }
     };
     getPostList();
-  });
+  }, []);
 
   if (typeof window !== "undefined" && !auth?.currentUser) router.push("/");
   return (
     <Layout>
       <div className="bg-white">
-        <header className=" fixed top-0 bg-white w-full shadow-sm  ">
+        {/* <header className=" fixed top-0 bg-white w-full shadow-sm  ">
           <div className=" w-full  flex  p-5  items-center justify-between ">
             <div className="flex justify-center items-center">
               <a
@@ -89,7 +89,7 @@ export default function blog() {
               </button>
             </div>
           </div>
-        </header>
+        </header> */}
         <div className="0 mt-20 w-full md:flex lg:flex flex-wrap lg:pr-4 lg:pl-8 p-6  gap-3 ">
           {postList.map((post) => (
             <BlogPosts

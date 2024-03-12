@@ -28,3 +28,7 @@
   top: 24px;
   right: 24px;
 }
+.displayImg {
+  background: no-repeat;
+  background: center;
+}
