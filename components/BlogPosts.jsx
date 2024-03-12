@@ -1,7 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { BiSolidLike } from "react-icons/bi";
+import {
+  addDoc,
+  collection,
+  getDocs,
+  updateDoc,
+  doc,
+} from "firebase/firestore";
+import { auth, database } from "@/firebase/firebaseConfig";
 
 export default function BlogPosts({
+  keyId,
   category,
   heading,
   para,
@@ -12,13 +21,29 @@ export default function BlogPosts({
 }) {
   const [like, setLike] = useState(false);
   const [likeCount, setLikeCount] = useState(likes);
+  const postCollections = collection(database, "post");
 
-  let likecountfunc = () => {
+  let likecountfunc = async (id) => {
     // Update like state immediately before evaluating conditions
+    const postlikes = doc(database, "post", id);
+    console.log(postlikes);
+
     setLike((prevLike) => !prevLike);
+    console.log(likes);
     if (!like) {
       setLikeCount((prevCount) => prevCount + 1);
+      let newValue = likes + 1;
+      await updateDoc(postlikes, {
+        likes: newValue,
+      });
+      console.log(likes);
     } else {
+      let newValue = likes - 1;
+      await updateDoc(postlikes, {
+        likes: newValue,
+      });
+      console.log(likes);
+
       setLikeCount((prevCount) => Math.max(prevCount - 1, 0));
     }
   };
@@ -49,7 +74,9 @@ export default function BlogPosts({
         </a>
         <div className="ml-auto flex justify-center items-center">
           <BiSolidLike
-            onClick={likecountfunc}
+            onClick={() => {
+              likecountfunc(keyId);
+            }}
             className={`${like ? "text-blue-600" : "text-black"} text-xl`}
           />
           <p className="text-xl ml-3">{likeCount}</p>

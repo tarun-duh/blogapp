@@ -70,13 +70,11 @@ export default function Login({ clicked, popup }) {
   }
 
   function signup() {
-    console.log("signup clicked");
     divref.current.style.display = "none";
     setSignupCliked(true);
   }
 
   const showPass = () => {
-    console.log(showPassword);
     showPassword ? setShowPassword(false) : setShowPassword(true);
   };
 

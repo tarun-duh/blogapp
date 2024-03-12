@@ -8,6 +8,7 @@ import Login from "./Login";
 import Signup from "./Signup";
 import { FaUserCircle } from "react-icons/fa";
 import { auth, googleProvider } from "../firebase/firebaseConfig";
+import Layout from "./Layout";
 
 export default function Main() {
   const router = useRouter();
@@ -37,9 +38,9 @@ export default function Main() {
     setSignupCliked(false);
   }
   return (
-    <>
+    <Layout login={login} signup={signup}>
       <div className="w-full h-screen ">
-        <header>
+        {/* <header className="hidden">
           <nav className="fixed inset-x-0 top-0 z-10 w-full p-4 sm:p-6 bg-white shadow-md border-slate-500  transition ">
             <div className="flex justify-between ">
               <div className="flex">
@@ -86,7 +87,7 @@ export default function Main() {
               </div>
             </div>
           </nav>
-        </header>
+        </header> */}
         <div className="md:h-3/4 h-96  md:pt-28 md:px-11 pt-10 px-5 pb-6 w-full flex  justify-center   ">
           <div className="flex h-full w-full flex-col md:w-1/2 justify-center">
             <h1 className="text-3xl font-bold md:text-6xl md:mb-2  text-orange-500">
@@ -120,6 +121,6 @@ export default function Main() {
         {loginClicked && <Login clicked={loginClicked} popup={closePopup} />}
         {signupClicked && <Signup clicked={signupClicked} popup={closePopup} />}
       </div>
-    </>
+    </Layout>
   );
 }

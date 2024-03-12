@@ -24,14 +24,14 @@ export default function Signup({ clicked, popup }) {
   const userCollections = collection(database, "users");
 
   //current user
-  console.log(auth?.currentUser?.email);
+  // console.log(auth?.currentUser?.email);
 
   //sign up function
   const signUp = async () => {
     try {
       if (passwordError.length == 0 && emailError.length == 0) {
         signOut(auth);
-        console.log("everything looks good so now we can sign up");
+        // console.log("everything looks good so now we can sign up");
         await createUserWithEmailAndPassword(auth, userId, password);
         router.push("blog");
         await addDoc(userCollections, {
@@ -50,7 +50,6 @@ export default function Signup({ clicked, popup }) {
     }
   };
   const showPass = () => {
-    console.log(showPassword);
     showPassword ? setShowPassword(false) : setShowPassword(true);
   };
   function closePopup() {
@@ -59,7 +58,6 @@ export default function Signup({ clicked, popup }) {
   }
   function login() {
     divref.current.style.display = "none";
-    console.log("login clicked");
     setLoginCliked(true);
   }
 
