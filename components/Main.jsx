@@ -19,7 +19,7 @@ export default function Main() {
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
       if (user) {
-        router.push("blog");
+        router.push("/blog");
       }
     });
 

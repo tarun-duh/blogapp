@@ -33,7 +33,7 @@ export default function profile() {
           style={{
             backgroundImage: `${profile}`,
           }}
-          className="displayImg rounded-full md:h-60 h-28 bg-red-400 w-2/6 md:mt-[-120px] mt-[-60px] p-2 overflow-hidden "
+          className="displayImg rounded-full md:h-60  h-28 bg-red-400 md:w-1/6 w-2/6 md:mt-[-120px] mt-[-60px] p-2 overflow-hidden "
         ></div>
         <div className="w-4/6 h-50  md:px-6 px-3 md:py-3 py-1 ">
           <h1 className="md:text-xl text-lg  font-semibold">{name}</h1>

@@ -31,14 +31,38 @@ export default function Signup({ clicked, popup }) {
     try {
       if (passwordError.length == 0 && emailError.length == 0) {
         signOut(auth);
+
         // console.log("everything looks good so now we can sign up");
         await createUserWithEmailAndPassword(auth, userId, password);
         router.push("blog");
+
+        //here we are retrieving the users date from the firebase to check if we already have the data of the  user that just logged in.
         await addDoc(userCollections, {
           email: auth?.currentUser?.email,
           password: password,
           username: firstName + " " + LastName,
         });
+        // let userlist = await getDocs(userCollections);
+        // let filterusers = userlist.docs.map((doc) => ({
+        //   ...doc.data(),
+        //   id: doc.id,
+        // }));
+        // filterusers.map(async (user) => {
+        //   let arr = [];
+        //   arr.push(user.email);
+        //   if (!arr.includes(auth?.currentUser?.email)) {
+        //     console.log("not includes");
+        //     if (auth?.currentUser?.email) {
+        //       await addDoc(userCollections, {
+        //         email: auth?.currentUser?.email,
+        //         password: password,
+        //         username: firstName + " " + LastName,
+        //       });
+        //     } else {
+        //       console.log("error");
+        //     }
+        //   }
+        // });
       }
     } catch (err) {
       if (userId.length > 0 && password.length > 0 && firstName.length > 0) {

@@ -12,7 +12,7 @@ import {
   signOut,
 } from "firebase/auth";
 import { auth, googleProvider, database } from "../firebase/firebaseConfig";
-import { collection, addDoc } from "firebase/firestore";
+import { collection, addDoc, getDocs } from "firebase/firestore";
 import { useRef } from "react";
 
 export default function Login({ clicked, popup }) {
@@ -52,11 +52,26 @@ export default function Login({ clicked, popup }) {
     try {
       await signInWithPopup(auth, googleProvider);
       router.push("blog");
-      await addDoc(userCollections, {
-        email: auth?.currentUser?.email,
-        password: password,
-        username: auth?.currentUser?.displayName,
+      let userlist = await getDocs(userCollections);
+      let filterusers = userlist.docs.map((doc) => ({
+        ...doc.data(),
+        id: doc.id,
+      }));
+      //array for all the users in the database
+      let arr = [];
+      filterusers.map((user) => {
+        arr.push(user.email);
       });
+
+      //checking if the user that just logged in is already in the database or not
+      if (!arr.includes(auth?.currentUser?.email)) {
+        console.log("not includes");
+        await addDoc(userCollections, {
+          email: auth?.currentUser?.email,
+          password: password,
+          username: auth?.currentUser?.displayName,
+        });
+      }
       setUserId("");
       setPassword("");
     } catch (err) {

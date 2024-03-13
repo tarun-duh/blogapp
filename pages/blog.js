@@ -90,9 +90,10 @@ export default function blog() {
             </div>
           </div>
         </header> */}
-        <div className="0 mt-20 w-full md:flex lg:flex flex-wrap lg:pr-4 lg:pl-8 p-6  gap-3 ">
-          {postList.map((post) => (
+        <div className="0 mt-20 w-full md:flex lg:flex flex-wrap lg:pr-4 lg:pl-8 p-3 md:pt-6  gap-3 ">
+          {postList.map((post, index) => (
             <BlogPosts
+              key={index}
               keyId={post.id}
               category={post.category}
               heading={post.heading}
