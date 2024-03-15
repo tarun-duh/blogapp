@@ -5,23 +5,20 @@ import { FaUserCircle } from "react-icons/fa";
 import { FaRegEdit } from "react-icons/fa";
 import { useRouter } from "next/router";
 import { auth } from "@/firebase/firebaseConfig";
+import Link from "next/link";
 
 export default function Header({ login, signup, publish }) {
   const router = useRouter();
   const currentPage = router.pathname;
+  console.log(currentPage);
 
   return (
     <div>
       <header className=" fixed top-0 bg-white w-full shadow-sm shadow-slate-200  ">
         <div className=" w-full  flex  md:p-5 lg:p-5 px-3  py-5  items-center justify-between ">
           <div className="flex justify-center items-center">
-            <a
-              onClick={() => {
-                if (currentPage === "/write") {
-                  router.push("/blog");
-                }
-                router.push(currentPage);
-              }}
+            <Link
+              href={currentPage === "/" ? "/" : "/blog"}
               className="cursor-pointer   flex title-font font-medium items-center  justify-center text-gray-900  "
             >
               <Image
@@ -45,7 +42,7 @@ export default function Header({ login, signup, publish }) {
                   height={"auto"}
                 />
               )}
-            </a>
+            </Link>
             {currentPage === "/blog" && (
               <input
                 type="text"
