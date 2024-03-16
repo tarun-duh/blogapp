@@ -7,7 +7,7 @@ import { useRouter } from "next/router";
 import { auth } from "@/firebase/firebaseConfig";
 import Link from "next/link";
 
-export default function Header({ login, signup, publish }) {
+export default function Header({ login, signup, publish, logOut }) {
   const router = useRouter();
   const currentPage = router.pathname;
   console.log(currentPage);
@@ -52,7 +52,7 @@ export default function Header({ login, signup, publish }) {
             )}
           </div>
           <div className="flex ">
-            {currentPage === "/blog" && (
+            {(currentPage === "/profile" || currentPage === "/blog") && (
               <nav className=" flex  items-center text-base mr-8 justify-center text-black hover:text-gray-500">
                 <a
                   onClick={() => {
@@ -121,6 +121,14 @@ export default function Header({ login, signup, publish }) {
                     />
                   </button>
                 </div>
+              )}
+              {currentPage === "/profile" && (
+                <button
+                  onClick={logOut}
+                  className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded"
+                >
+                  Log out
+                </button>
               )}
             </div>
           </div>

@@ -8,6 +8,7 @@ import {
   doc,
 } from "firebase/firestore";
 import { auth, database } from "@/firebase/firebaseConfig";
+import { Slide } from "react-awesome-reveal";
 
 export default function BlogPosts({
   keyId,

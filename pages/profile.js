@@ -20,7 +20,7 @@ export default function profile() {
     }
   };
   return (
-    <Layout>
+    <Layout logOut={logout}>
       <div className=" bg-black md:pt-20  pt-16 overflow-hidden">
         <img
           className=" md:h-80 h-60 w-full bg-cover "
@@ -32,6 +32,7 @@ export default function profile() {
         <div
           style={{
             backgroundImage: `${profile}`,
+            backgroundSize: "cover",
           }}
           className="displayImg rounded-full md:h-60  h-28 bg-red-400 md:w-1/6 w-2/6 md:mt-[-120px] mt-[-60px] p-2 overflow-hidden "
         ></div>
