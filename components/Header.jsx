@@ -42,6 +42,19 @@ export default function Header({ login, signup, publish, logOut }) {
                   height={"auto"}
                 />
               )}
+              {currentPage === "/" && (
+                <Image
+                  onClick={() => {
+                    router.push("/");
+                  }}
+                  className="w-30 md:w-48  md:hidden lg:hidden"
+                  priority={true}
+                  src={blogyou}
+                  alt="My Image"
+                  width={180}
+                  height={"auto"}
+                />
+              )}
             </Link>
             {currentPage === "/blog" && (
               <input
@@ -53,7 +66,7 @@ export default function Header({ login, signup, publish, logOut }) {
           </div>
           <div className="flex ">
             {(currentPage === "/profile" || currentPage === "/blog") && (
-              <nav className=" flex  items-center text-base mr-8 justify-center text-black hover:text-gray-500">
+              <nav className=" flex  items-center text-base mr-3 md:mr-6 justify-center text-black hover:text-gray-500">
                 <a
                   onClick={() => {
                     router.push("/write");
@@ -61,7 +74,7 @@ export default function Header({ login, signup, publish, logOut }) {
                   className="cursor-pointer flex items-center justify-center "
                 >
                   <FaRegEdit className="text-l  " />
-                  <p className=" text-l ml-2  ">Write</p>
+                  <p className=" text-l ml-2 text-sm md:text-base ">Write</p>
                 </a>
               </nav>
             )}
@@ -79,13 +92,13 @@ export default function Header({ login, signup, publish, logOut }) {
               <div className="md:hidden p-1 h-9 flex items-center justify-center">
                 <FaUserCircle
                   onClick={login}
-                  className="text-orange-400 text-2xl "
+                  className="text-orange-400 text-3xl "
                 />
               </div>
             )}
             <div className="md:flex ">
               {currentPage === "/" && (
-                <div className="flex items-center space-x-4 text-base font-medium tracking-tight">
+                <div className="md:flex hidden items-center space-x-4 text-base font-medium tracking-tight">
                   <button
                     onClick={login}
                     // style={{
@@ -125,7 +138,7 @@ export default function Header({ login, signup, publish, logOut }) {
               {currentPage === "/profile" && (
                 <button
                   onClick={logOut}
-                  className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded"
+                  className="bg-blue-500 hover:bg-blue-600 text-white md:font-semibold p-1.5 md:py-2 md:px-4 text-xs md:text-xs rounded"
                 >
                   Log out
                 </button>
