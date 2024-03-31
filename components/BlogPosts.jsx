@@ -18,7 +18,7 @@ export default function BlogPosts({
   likes,
   author,
   date,
-  profile,
+  profile = "https://cdn-icons-png.flaticon.com/512/3177/3177440.png",
 }) {
   const [like, setLike] = useState(false);
   const [likeCount, setLikeCount] = useState(likes);

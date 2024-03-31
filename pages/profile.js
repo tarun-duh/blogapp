@@ -69,6 +69,7 @@ export default function profile() {
           <div
             onClick={() => {
               console.log("edit clicked");
+              setEditClicked(true);
             }}
             className="transition duration-300 transform hover:shadow-md  hover:scale-105 px-2 py-1 cursor-pointer absolute flex items-center justify-center top-0 right-0 text-blue-600 gap-1 md:text-lg text-sm"
           >

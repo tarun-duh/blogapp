@@ -14,12 +14,14 @@ export default function Profilepopup({ active, closefunc }) {
     setBgError("picture uploaded");
     // setNewBg(e.target.files[0]);
   };
+  if (active == false) return null;
+
   return (
     <div className="overlay ">
       <div className="relative h-2/3 w-3/4 bg-white ">
-        <div className=" h-6 w-6 absolute top-1 right-1 z-20  ">
+        <div className=" h-6 w-6 absolute top-2 right-2 z-20 cursor-pointer  ">
           <IoCloseSharp
-            className="text-2xl text-black z-10"
+            className="text-2xl text-white z-10"
             onClick={closefunc}
           />
         </div>
@@ -45,9 +47,14 @@ export default function Profilepopup({ active, closefunc }) {
         {bgError.length > 0 && <p>{bgError}</p>}
         <div className="h-1/2 w-full bg-gray-300 flex">
           <div className="w-1/2 bg-red-50 flex justify-center items-center">
-            <img src={pfp} alt="" />
+            <img src={pfp} alt="" className="h-2/3 w-2/3 bg-cover" />
           </div>
-          <div className="w-1/2">info</div>
+          <div className="w-1/2 flex justify-center items-center">
+            info
+            <div>
+              <input placeholder="your name" type="text" />
+            </div>
+          </div>
         </div>
       </div>
     </div>
