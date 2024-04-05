@@ -57,39 +57,6 @@ export default function write() {
   return (
     <Layout publish={publishfunc}>
       <div className="h-screen w-screen">
-        {/* <header className=" w-full shadow-sm ">
-          <div className=" w-full  flex  p-5  items-center justify-between ">
-            <div className="flex justify-center items-center">
-              <a
-                onClick={() => {
-                  router.push("/blog");
-                }}
-                className="cursor-pointer   flex title-font font-medium items-center  justify-center text-gray-900  "
-              >
-                <Image
-                  className="w-30 md:w-48"
-                  priority={true}
-                  src={blogyou}
-                  alt="My Image"
-                  width={180}
-                  height={"auto"}
-                />
-              </a>
-            </div>
-            <div className="flex ">
-              <nav className=" flex  items-center text-base mr-8 justify-center text-black hover:text-gray-500"></nav>
-              <button
-                onClick={publishfunc}
-                className="px-6 py-2 mr-3 shadow-2xl shadow-slate-400 text-white text-xs transition duration-600 ease-out bg-lime-600 rounded-full hover:bg-green-800 hover:ease-in "
-              >
-                Publish
-              </button>
-              <button className="inline-flex items-center  border-0 py-1 px-3 focus:outline-none hover:bg-gray-200 rounded text-base  ">
-                <FaUserCircle className="text-3xl text-orange-500" />
-              </button>
-            </div>
-          </div>
-        </header> */}
         <div className="w-full  h-4/5 md:pt-32 md:px-10 md:pb-10 pt-24 px-4 pb-10">
           <input
             className="w-full font-serif  outline-none  border-b-2 border-gray-100 p-3  break-all text-lg"

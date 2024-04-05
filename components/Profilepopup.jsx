@@ -1,7 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { IoCloseSharp } from "react-icons/io5";
+import { storage } from "../firebase/firebaseConfig";
+import { ref, uploadBytes } from "firebase/storage";
+import { v4 } from "uuid";
 
 export default function Profilepopup({ active, closefunc }) {
+  const [imageBg, setImageBg] = useState(null);
   const [bgError, setBgError] = useState("");
   const [bgInput, setBgInput] = useState("");
   const [newBg, setNewBg] = useState(
@@ -9,10 +13,19 @@ export default function Profilepopup({ active, closefunc }) {
   );
   let pfp =
     "https://images.pexels.com/photos/17867773/pexels-photo-17867773/free-photo-of-buck-and-deer-on-grassland.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1";
+
+  useEffect(() => {
+    bgChange();
+  }, [imageBg]);
+
   let bgChange = (e) => {
-    console.log("change", bgInput);
-    setBgError("picture uploaded");
-    // setNewBg(e.target.files[0]);
+    if (imageBg == null) return;
+    const imageRef = ref(storage, `image/${imageBg.name + v4()}`);
+    uploadBytes(imageRef, imageBg).then(() => {
+      alert("image uploded");
+      let bgUrl = URL.createObjectURL(imageBg);
+      setNewBg(bgUrl);
+    });
   };
   if (active == false) return null;
 
@@ -30,7 +43,7 @@ export default function Profilepopup({ active, closefunc }) {
           type="file"
           className="bg-red hidden h-12 w-full"
           onChange={(e) => {
-            bgChange(e);
+            setImageBg(e.target.files[0]);
           }}
           value={bgInput}
         />

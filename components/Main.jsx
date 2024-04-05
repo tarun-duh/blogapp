@@ -40,54 +40,6 @@ export default function Main() {
   return (
     <Layout login={login} signup={signup}>
       <div className="w-full h-screen ">
-        {/* <header className="hidden">
-          <nav className="fixed inset-x-0 top-0 z-10 w-full p-4 sm:p-6 bg-white shadow-md border-slate-500  transition ">
-            <div className="flex justify-between ">
-              <div className="flex">
-                <div className="text-[1.5rem]   leading-[3rem] tracking-tight font-semibold text-black ">
-                  <a href="/">
-                    <Image
-                      className="w-30 md:w-48"
-                      priority={true}
-                      src={blogyou}
-                      alt="My Image"
-                      width={180}
-                      height={"auto"}
-                    />
-                  </a>
-                </div>
-              </div>
-              <div className="md:hidden p-1 h-9 flex items-center justify-center">
-                <FaUserCircle
-                  onClick={login}
-                  className="text-orange-400 text-2xl "
-                />
-              </div>
-              <div className="md:flex hidden">
-                <div className="text-[1rem] leading-[3rem] tracking-tight  text-black dark:text-white">
-                  <blogyou />
-                </div>
-                <div className="flex items-center space-x-4 text-base font-medium tracking-tight">
-                  <button
-                    onClick={login}
-                    // style={{
-                    //   backgroundColor: "#4A732D",
-                    // }}
-                    className="px-5 py-2  text-black   bg-white border border-white rounded-full hover:border-black hover:border hover:text-gray-450  "
-                  >
-                    Sign in
-                  </button>
-                  <button
-                    onClick={signup}
-                    className="px-6 py-2 shadow-2xl shadow-slate-400 text-white transition duration-600 ease-out bg-purple-800 rounded-full hover:bg-green-900 hover:ease-in "
-                  >
-                    Get started
-                  </button>
-                </div>
-              </div>
-            </div>
-          </nav>
-        </header> */}
         <div className="md:h-3/4 h-96  md:pt-28 md:px-11 pt-10 px-5 pb-6 w-full flex  justify-center   ">
           <div className="flex h-full w-full flex-col md:w-1/2 justify-center">
             <h1 className="text-3xl font-bold md:text-6xl md:mb-2  text-orange-500">
