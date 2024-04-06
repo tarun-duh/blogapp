@@ -1,16 +1,12 @@
 import Head from "next/head";
 import { useRouter } from "next/router";
 import React from "react";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { FcGoogle } from "react-icons/fc";
 import { IoMdClose } from "react-icons/io";
 import { IoMdEye } from "react-icons/io";
 import Signup from "./Signup";
-import {
-  signInWithPopup,
-  signInWithEmailAndPassword,
-  signOut,
-} from "firebase/auth";
+import { signInWithPopup, signInWithEmailAndPassword } from "firebase/auth";
 import { auth, googleProvider, database } from "../firebase/firebaseConfig";
 import { collection, addDoc, getDocs } from "firebase/firestore";
 import { useRef } from "react";
@@ -70,6 +66,8 @@ export default function Login({ clicked, popup }) {
           email: auth?.currentUser?.email,
           password: password,
           username: auth?.currentUser?.displayName,
+          userPfp: "asdasdasda",
+          userBg: "asdadsdasdas",
         });
       }
       setUserId("");
