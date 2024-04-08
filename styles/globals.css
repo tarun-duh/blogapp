@@ -29,6 +29,7 @@
   right: 24px;
 }
 .displayImg {
-  background: no-repeat;
   background: center;
+  background-repeat: no-repeat;
+  background-size: cover;
 }

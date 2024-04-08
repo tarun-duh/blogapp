@@ -6,14 +6,24 @@ import Layout from "@/components/Layout";
 import { MdModeEdit } from "react-icons/md";
 import { database } from "@/firebase/firebaseConfig";
 import Profilepopup from "@/components/Profilepopup";
+import {
+  addDoc,
+  collection,
+  getDocs,
+  updateDoc,
+  doc,
+} from "firebase/firestore";
 
 export default function profile() {
-  const backgroundImg =
-    "https://images.pexels.com/photos/17096705/pexels-photo-17096705/free-photo-of-sereno.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1";
-  const profile =
-    "url(https://images.pexels.com/photos/7755619/pexels-photo-7755619.jpeg?auto=compress&cs=tinysrgb&w=600)";
+  const userCollections = collection(database, "users");
   const router = useRouter();
   const [name, setName] = useState("Anonymous");
+  const [profile, setProfile] = useState(
+    "https://images.pexels.com/photos/7755619/pexels-photo-7755619.jpeg?auto=compress&cs=tinysrgb&w=600"
+  );
+  const [backgroundImg, setBackgroundImg] = useState(
+    "https://images.pexels.com/photos/17096705/pexels-photo-17096705/free-photo-of-sereno.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+  );
   const [email, setEmail] = useState(null);
   const [editClicked, setEditClicked] = useState(false);
 
@@ -32,9 +42,29 @@ export default function profile() {
         setEmail(user.email);
       }
     });
+    let getUserDate = async () => {
+      try {
+        let listData = await getDocs(userCollections);
+        const filterData = listData.docs.map((doc) => ({
+          ...doc.data(),
+          id: doc.id,
+        }));
 
+        for (let i of filterData) {
+          if (auth?.currentUser?.email == i.email) {
+            console.log(i.email, "hey");
+            setProfile(i.userPfp);
+            setBackgroundImg(i.userBg);
+          }
+        }
+        console.log(filterData);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    getUserDate();
     return () => unsubscribe();
-  }, []);
+  }, [editClicked]);
 
   const getAllCollections = async () => {
     // const collections = await database.listCollections();
@@ -48,22 +78,22 @@ export default function profile() {
   };
   return (
     <Layout logOut={logout}>
-      <div className=" bg-black md:pt-20  pt-16 overflow-hidden">
+      <div className=" h-[400px] w-full bg-black md:pt-20  pt-16 overflow-hidden ">
         <img
-          className=" md:h-80 h-60 w-full bg-cover "
+          className="displayImg h-full w-full bg-cover "
           src={backgroundImg}
           alt="img"
         />
       </div>
-      <div className="md:h-50 h-34 bg-white flex md:px-12 md:py-3 px-3 py-3 md:pt-3 md:pb-8 shadow-md">
-        <div
-          style={{
-            backgroundImage: `${profile}`,
-            backgroundSize: "cover",
-          }}
-          className="displayImg rounded-full md:h-60  h-28 bg-red-400 md:w-1/6 w-2/5 md:mt-[-120px] mt-[-60px] p-2 overflow-hidden "
-        ></div>
-        <div className="w-5/6 h-50  md:px-6 pl-3 md:py-3 py-1 relative">
+      <div className=" md:h-50 h-34 bg-white flex md:px-12 md:py-3 px-3 py-3 md:pt-3 md:pb-8 shadow-md">
+        <div className="flex-2 displayImg rounded-full border-black border-2  h-[250px] w-[250px]   overflow-hidden bg-cover bg-no-repeat mt-[-100px] ">
+          <img
+            className=" h-full w-full displayImg "
+            src={profile}
+            alt="pfpimg"
+          />
+        </div>
+        <div className="flex-1 h-50  md:px-6 pl-3 md:py-3 py-1 relative">
           <h1 className="md:text-xl text-base  font-semibold">{name}</h1>
           <p className="md:text-lg text-sm">{email}</p>
           <div

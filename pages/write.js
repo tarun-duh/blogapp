@@ -8,6 +8,9 @@ import { getDocs, collection, addDoc } from "firebase/firestore";
 import Layout from "@/components/Layout";
 
 export default function write() {
+  const [profile, setProfile] = useState(
+    "https://cdn-icons-png.flaticon.com/512/3177/3177440.png"
+  );
   const router = useRouter();
   const [categoryIn, setCategoryIn] = useState("");
   const [title, setTitle] = useState("");
@@ -23,6 +26,28 @@ export default function write() {
         setAuthor(user.displayName);
       }
     });
+
+    let getUserDate = async () => {
+      try {
+        let listData = await getDocs(userCollections);
+        const filterData = listData.docs.map((doc) => ({
+          ...doc.data(),
+          id: doc.id,
+        }));
+
+        for (let i of filterData) {
+          if (auth?.currentUser?.email == i.email) {
+            console.log(i.email, "hey");
+            setProfile(i.userPfp);
+            setBackgroundImg(i.userBg);
+          }
+        }
+        console.log(filterData);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    getUserDate();
     return () => unsubscribe();
   }, []);
 
@@ -46,6 +71,7 @@ export default function write() {
           category: categoryIn,
           useremail: auth?.currentUser?.email,
           likes: 0,
+          profile: profile,
         });
         router.push("/blog");
       } catch (err) {
