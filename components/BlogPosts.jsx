@@ -74,7 +74,7 @@ export default function BlogPosts({
   };
   return (
     <>
-      <div className="md:p-6 p-3 mb-3 md:mb-0 lg:mb-0 lg:w-[49%] w-full overflow-hidden transition duration-300 transform hover:shadow-md hover:-translate-y-1 hover:scale-105    flex flex-col items-start bg-slate-100  rounded-lg">
+      <div className="z-0 md:p-6 p-3 mb-3 md:mb-0 lg:mb-0 lg:w-[49%] w-full overflow-hidden transition duration-300 transform hover:shadow-md hover:-translate-y-1 hover:scale-105    flex flex-col items-start bg-slate-100  rounded-lg">
         <span className="inline-block py-1 px-2 rounded bg-indigo-50 text-indigo-500 text-xs font-medium tracking-widest">
           {category}
         </span>

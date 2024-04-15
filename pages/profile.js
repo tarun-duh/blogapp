@@ -6,6 +6,8 @@ import Layout from "@/components/Layout";
 import { MdModeEdit } from "react-icons/md";
 import { database } from "@/firebase/firebaseConfig";
 import Profilepopup from "@/components/Profilepopup";
+import BlogPosts from "@/components/BlogPosts";
+
 import {
   addDoc,
   collection,
@@ -16,7 +18,10 @@ import {
 
 export default function profile() {
   const userCollections = collection(database, "users");
+  const postcollections = collection(database, "post");
+
   const router = useRouter();
+  const [postList, setPostList] = useState([]);
   const [name, setName] = useState("Anonymous");
   const [profile, setProfile] = useState(
     "https://images.pexels.com/photos/7755619/pexels-photo-7755619.jpeg?auto=compress&cs=tinysrgb&w=600"
@@ -41,6 +46,24 @@ export default function profile() {
       if (user) {
         setEmail(user.email);
       }
+      let getPostList = async () => {
+        try {
+          let listData = await getDocs(postcollections);
+          const filterData = listData.docs.map((doc) => ({
+            ...doc.data(),
+            id: doc.id,
+          }));
+          setPostList(filterData);
+          let usersdata = await getDocs(userCollections);
+          const filterUsers = usersdata.docs.map((doc) => ({
+            ...doc.data(),
+            id: doc.id,
+          }));
+        } catch (err) {
+          console.error("Error getting documents: ", err);
+        }
+      };
+      getPostList();
     });
     let getUserDate = async () => {
       try {
@@ -52,9 +75,9 @@ export default function profile() {
 
         for (let i of filterData) {
           if (auth?.currentUser?.email == i.email) {
-            console.log(i.email, "hey");
             setProfile(i.userPfp);
             setBackgroundImg(i.userBg);
+            setName(i.username);
           }
         }
         console.log(filterData);
@@ -80,15 +103,15 @@ export default function profile() {
     <Layout logOut={logout}>
       <div className=" h-[400px] w-full bg-black md:pt-20  pt-16 overflow-hidden ">
         <img
-          className="displayImg h-full w-full bg-cover "
+          className="displayImg h-full w-full bg-cover object-cover"
           src={backgroundImg}
           alt="img"
         />
       </div>
-      <div className=" md:h-50 h-34 bg-white flex md:px-12 md:py-3 px-3 py-3 md:pt-3 md:pb-8 shadow-md">
-        <div className="flex-2 displayImg rounded-full border-black border-2  h-[250px] w-[250px]   overflow-hidden bg-cover bg-no-repeat mt-[-100px] ">
+      <div className=" md:h-50 h-34 bg-white flex md:px-6 lg:px-10 md:py-3 px-4 py-3 md:pt-3 md:pb-8 shadow-md">
+        <div className="flex-2 displayImg rounded-full border-black border-2 sm:h-[180px] sm:w-[180px] md:h-[220px] md:w-[220px]   lg:h-[250px] lg:w-[250px] h-[135px] w-[135px]  overflow-hidden bg-cover bg-no-repeat sm:mt-[-70px] lg:mt-[-100px] md:mt-[-90px] mt-[-50px] ">
           <img
-            className=" h-full w-full displayImg "
+            className=" h-full w-full displayImg object-cover"
             src={profile}
             alt="pfpimg"
           />
@@ -106,23 +129,31 @@ export default function profile() {
             <MdModeEdit className="" />
             <p className="">Edit</p>
           </div>
-          <div>
-            <button
-              onClick={() => {
-                getAllCollections();
-              }}
-              className="bg-orange-500 p-2 rounded-lg text-white"
-            >
-              My blogs
-            </button>
-            <button className="bg-blue-600 p-2 rounded-lg text-white">
-              Liked blogs
-            </button>
-          </div>
         </div>
       </div>
-      <Profilepopup active={editClicked} closefunc={closeEdit} />
-      <div className=""></div>
+      <Profilepopup
+        active={editClicked}
+        closefunc={closeEdit}
+        profile={profile}
+        backgroundImg={backgroundImg}
+      />
+      <div className="">
+        <div className="0  w-full md:flex lg:flex flex-wrap lg:pr-4 lg:pl-8 p-3 md:pt-6  gap-3 ">
+          {postList.map((post, index) => (
+            <BlogPosts
+              key={index}
+              keyId={post.id}
+              category={post.category}
+              heading={post.heading}
+              para={post.paragraph}
+              author={post.author}
+              date={post.date}
+              profile={post.profile}
+              likes={post.likes}
+            />
+          ))}
+        </div>
+      </div>
     </Layout>
   );
 }

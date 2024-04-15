@@ -8,17 +8,62 @@ import { FaUserCircle } from "react-icons/fa";
 import { FaRegEdit } from "react-icons/fa";
 import { IoSearch } from "react-icons/io5";
 import BlogPosts from "@/components/BlogPosts";
-import { getDocs, collection } from "firebase/firestore";
+import {
+  getDocs,
+  collection,
+  addDoc,
+  updateDoc,
+  doc,
+} from "firebase/firestore";
 import Layout from "@/components/Layout";
 
 export default function blog() {
   const [postList, setPostList] = useState([]);
   const postcollections = collection(database, "post");
   const userCollections = collection(database, "users");
+  const [profile, setProfile] = useState(
+    "https://images.rawpixel.com/image_png_800/cHJpdmF0ZS9sci9pbWFnZXMvd2Vic2l0ZS8yMDIzLTAxL3JtNjA5LXNvbGlkaWNvbi13LTAwMi1wLnBuZw.png"
+  );
 
   const router = useRouter();
 
   useEffect(() => {
+    /// updating user profile in the posts
+    let getUserDate = async () => {
+      try {
+        let listData = await getDocs(userCollections);
+        const filterData = listData.docs.map((doc) => ({
+          ...doc.data(),
+          id: doc.id,
+        }));
+
+        for (let i of filterData) {
+          if (auth?.currentUser?.email == i.email) {
+            setProfile(i.userPfp);
+            console.log(profile, "hey", i.userPfp);
+            let listData = await getDocs(postcollections);
+            const filterData = listData.docs.map((doc) => ({
+              ...doc.data(),
+              id: doc.id,
+            }));
+            for (let j of filterData) {
+              if (j.useremail == auth?.currentUser?.email) {
+                const userphoto = doc(database, "post", j.id);
+                console.log(userphoto, j.id);
+                await updateDoc(userphoto, {
+                  profile: i.userPfp,
+                  author: i.username,
+                });
+              }
+            }
+          }
+        }
+        console.log(filterData);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+
     let getPostList = async () => {
       try {
         let listData = await getDocs(postcollections);
@@ -36,6 +81,7 @@ export default function blog() {
         console.error("Error getting documents: ", err);
       }
     };
+    getUserDate();
     getPostList();
   }, []);
 

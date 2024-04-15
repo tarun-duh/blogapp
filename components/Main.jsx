@@ -7,11 +7,16 @@ import blogyou from "../public/images/newlogo.png";
 import Login from "./Login";
 import Signup from "./Signup";
 import { FaUserCircle } from "react-icons/fa";
-import { auth, googleProvider } from "../firebase/firebaseConfig";
+import { auth, googleProvider, database } from "../firebase/firebaseConfig";
 import Layout from "./Layout";
+import { getDocs, collection } from "firebase/firestore";
+import BlogPosts from "./BlogPosts";
 
 export default function Main() {
   const router = useRouter();
+  const [postList, setPostList] = useState([]);
+  const postcollections = collection(database, "post");
+
   const [loginClicked, setLoginCliked] = useState(false);
   const [signupClicked, setSignupCliked] = useState(false);
   const [hamburgerOn, setfirstHamburgerOn] = useState(false);
@@ -24,6 +29,26 @@ export default function Main() {
     });
 
     return () => unsubscribe();
+  }, []);
+  useEffect(() => {
+    let getPostList = async () => {
+      try {
+        let listData = await getDocs(postcollections);
+        const filterData = listData.docs.map((doc) => ({
+          ...doc.data(),
+          id: doc.id,
+        }));
+        setPostList(filterData);
+        // let usersdata = await getDocs(userCollections);
+        // const filterUsers = usersdata.docs.map((doc) => ({
+        //   ...doc.data(),
+        //   id: doc.id,
+        // }));
+      } catch (err) {
+        console.error("Error getting documents: ", err);
+      }
+    };
+    getPostList();
   }, []);
 
   function login() {
@@ -69,7 +94,24 @@ export default function Main() {
             />
           </div>
         </div>
-        <div className="text-xl">what's trending on Blogyou</div>
+        <div className="text-xl">
+          what's trending on Blogyou
+          <div className="z-0 mt-20 w-full md:flex lg:flex flex-wrap lg:pr-4 lg:pl-8 p-3 md:pt-6  gap-3 ">
+            {postList.map((post, index) => (
+              <BlogPosts
+                key={index}
+                keyId={post.id}
+                category={post.category}
+                heading={post.heading}
+                para={post.paragraph}
+                author={post.author}
+                date={post.date}
+                profile={post.profile}
+                likes={post.likes}
+              />
+            ))}
+          </div>
+        </div>
         {loginClicked && <Login clicked={loginClicked} popup={closePopup} />}
         {signupClicked && <Signup clicked={signupClicked} popup={closePopup} />}
       </div>

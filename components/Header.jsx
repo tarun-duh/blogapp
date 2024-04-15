@@ -10,11 +10,10 @@ import Link from "next/link";
 export default function Header({ login, signup, publish, logOut }) {
   const router = useRouter();
   const currentPage = router.pathname;
-  console.log(currentPage);
 
   return (
     <div>
-      <header className=" fixed top-0 bg-white w-full shadow-sm shadow-slate-200  ">
+      <header className="z-10 fixed top-0 bg-white w-full shadow-sm shadow-slate-200  ">
         <div className=" w-full  flex  md:p-5 lg:p-5 px-3  py-5  items-center justify-between ">
           <div className="flex justify-center items-center">
             <Link
@@ -38,7 +37,7 @@ export default function Header({ login, signup, publish, logOut }) {
                   priority={true}
                   src={blogyou}
                   alt="My Image"
-                  width={180}
+                  width={165}
                   height={"auto"}
                 />
               )}

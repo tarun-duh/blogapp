@@ -19,6 +19,7 @@ export default function write() {
   const [author, setAuthor] = useState("anonymous");
 
   const postCollections = collection(database, "post");
+  const userCollections = collection(database, "users");
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
@@ -39,7 +40,7 @@ export default function write() {
           if (auth?.currentUser?.email == i.email) {
             console.log(i.email, "hey");
             setProfile(i.userPfp);
-            setBackgroundImg(i.userBg);
+            setAuthor(i.username);
           }
         }
         console.log(filterData);

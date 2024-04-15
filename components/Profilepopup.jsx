@@ -11,133 +11,92 @@ import {
   doc,
 } from "firebase/firestore";
 
-export default function Profilepopup({ active, closefunc }) {
+export default function Profilepopup({
+  active,
+  closefunc,
+  profile,
+  backgroundImg,
+}) {
   const userCollections = collection(database, "users");
   const [imageBg, setImageBg] = useState(null);
   const [imagePfp, setImagePfp] = useState(null);
   const [name, setName] = useState("");
   const [lastName, setLastName] = useState("");
-  const [pfp, setPfp] = useState(
-    "https://images.pexels.com/photos/17867773/pexels-photo-17867773/free-photo-of-buck-and-deer-on-grassland.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-  );
-  const [newBg, setNewBg] = useState(
-    "https://images.pexels.com/photos/17867773/pexels-photo-17867773/free-photo-of-buck-and-deer-on-grassland.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-  );
+  const [pfp, setPfp] = useState(profile);
+  const [newBg, setNewBg] = useState(backgroundImg);
 
   useEffect(() => {
-    let ImgChange = async (e) => {
-      if (imageBg == null && imagePfp == null) return;
-      try {
-        if (imagePfp != null) {
-          const imageRef = ref(storage, `image/${imagePfp.name + v4()}`);
-          uploadBytes(imageRef, imagePfp).then(() => {
-            getDownloadURL(imageRef).then(async (url) => {
-              try {
-                let userlist = await getDocs(userCollections);
-                let filterusers = userlist.docs.map((doc) => ({
-                  ...doc.data(),
-                  id: doc.id,
-                }));
-                let userId;
-                let userEmail;
-                console.log(userEmail, "first");
-                filterusers.map(async (user) => {
-                  userId = user.id;
-                  userEmail = user.email;
-                  if (auth?.currentUser?.email == userEmail) {
-                    console.log(userEmail, "second");
-                    const userphoto = doc(database, "users", userId);
-                    await updateDoc(userphoto, {
-                      userPfp: url,
-                    });
-                  }
-                });
-              } catch (err) {
-                console.log(err);
-              }
-            });
-            alert("profile image uploded");
-          });
-          let pfpUrl = URL.createObjectURL(imagePfp);
-          console.log("pfp changed");
-          setPfp(pfpUrl);
-          setImagePfp(null);
-        }
+    if (imagePfp != null) {
+      let pfpUrl = URL.createObjectURL(imagePfp);
+      console.log("pfp changed");
+      setPfp(pfpUrl);
+    }
 
-        if (imageBg != null) {
-          const imageRef = ref(storage, `image/${imageBg.name + v4()}`);
-          uploadBytes(imageRef, imageBg).then(() => {
-            getDownloadURL(imageRef).then(async (url) => {
-              try {
-                let userlist = await getDocs(userCollections);
-                let filterusers = userlist.docs.map((doc) => ({
-                  ...doc.data(),
-                  id: doc.id,
-                }));
-                let userId;
-                let userEmail;
-                console.log(userEmail, "first");
-                filterusers.map(async (user) => {
-                  userId = user.id;
-                  userEmail = user.email;
-                  if (auth?.currentUser?.email == userEmail) {
-                    console.log(userEmail, "second");
-                    const userphoto = doc(database, "users", userId);
-                    await updateDoc(userphoto, {
-                      userBg: url,
-                    });
-                  }
-                });
-              } catch (err) {
-                console.log(err);
-              }
-            });
-            alert("background image uploded");
-          });
-          let bgUrl = URL.createObjectURL(imageBg);
-          console.log("bg changed");
-
-          setNewBg(bgUrl);
-          setImageBg(null);
-        }
-      } catch (err) {
-        console.log(err);
-      }
-      /// updating userpfp and userbg in firebase in user collection
-
-      let userlist = await getDocs(userCollections);
-      let filterusers = userlist.docs.map((doc) => ({
-        ...doc.data(),
-        id: doc.id,
-      }));
-      let userId;
-      let userEmail;
-      console.log(userEmail, "first");
-      filterusers.map(async (user) => {
-        userId = user.id;
-        userEmail = user.email;
-        if (auth?.currentUser?.email == userEmail) {
-          console.log(userEmail, "second");
-          const userphoto = doc(database, "users", userId);
-          await updateDoc(userphoto, {
-            // userPfp: `${imagePfp.name + v4()}`,
-            // userBg: `${imageBg.name + v4()}`,
-          });
-        }
-      });
-      console.log(userEmail, "third");
-      // if (auth?.currentUser?.email == userEmail) {
-      //   console.log("eamil to macth h pr age nhi kuch krenge");
-      //   const userphoto = doc(database, "users", userId);
-      //   await updateDoc(userphoto, {
-      //     userPfp: `image/${imagePfp.name + v4()}`,
-      //     userBg: `image/${imageBg.name + v4()}`,
-      //   });
-      // }
-    };
-
-    ImgChange();
+    if (imageBg != null) {
+      let bgUrl = URL.createObjectURL(imageBg);
+      console.log("bg changed");
+      setNewBg(bgUrl);
+    }
   }, [imageBg, imagePfp]);
+
+  let ImgChange = async () => {
+    try {
+      if (imagePfp != null) {
+        const imageRef = ref(storage, `image/${imagePfp.name + v4()}`);
+        await uploadBytes(imageRef, imagePfp);
+        const url = await getDownloadURL(imageRef);
+
+        const userlist = await getDocs(userCollections);
+        for (const user of userlist.docs) {
+          const userData = user.data();
+          if (auth?.currentUser?.email === userData.email) {
+            const userphoto = doc(database, "users", user.id);
+            await updateDoc(userphoto, {
+              userPfp: url,
+            });
+          }
+        }
+        alert("Profile image uploaded");
+        setImagePfp(null);
+      }
+
+      if (imageBg != null) {
+        const imageRef = ref(storage, `image/${imageBg.name + v4()}`);
+        await uploadBytes(imageRef, imageBg);
+        const url = await getDownloadURL(imageRef);
+
+        const userlist = await getDocs(userCollections);
+        for (const user of userlist.docs) {
+          const userData = user.data();
+          if (auth?.currentUser?.email === userData.email) {
+            const userphoto = doc(database, "users", user.id);
+            await updateDoc(userphoto, {
+              userBg: url,
+            });
+          }
+        }
+        alert("Background image uploaded");
+        setImageBg(null);
+      }
+
+      if (name.trim() !== "" || lastName.trim() !== "") {
+        const newName = name + lastName;
+        const userlist = await getDocs(userCollections);
+        for (const user of userlist.docs) {
+          const userData = user.data();
+          if (auth?.currentUser?.email === userData.email) {
+            const userphoto = doc(database, "users", user.id);
+            await updateDoc(userphoto, {
+              username: newName,
+            });
+          }
+        }
+        alert("Username updated");
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   if (active == false) return null;
 
@@ -147,7 +106,11 @@ export default function Profilepopup({ active, closefunc }) {
         <div className=" h-6 w-6 absolute top-2 right-2 z-20 cursor-pointer  ">
           <IoCloseSharp
             className="text-2xl text-white z-10 border-2 bg-black"
-            onClick={closefunc}
+            onClick={() => {
+              closefunc();
+              setLastName("");
+              setName("");
+            }}
           />
         </div>
         <input
@@ -189,7 +152,10 @@ export default function Profilepopup({ active, closefunc }) {
               </label>
             </div>
           </div>
-          <div className="w-1/2 h-full flex flex-col   p-4 bg-gray-50">
+          <div className="w-1/2 h-full flex flex-col justify-between  p-4 bg-gray-50">
+            <h1 className="text-2xl text-gray-500 text-center text">
+              This will be your new username
+            </h1>
             <div className="flex w-full p-3 items-center">
               <label htmlFor="name" className="w-auto">
                 Name:
@@ -218,6 +184,12 @@ export default function Profilepopup({ active, closefunc }) {
                 className="bg-white h-8 p-2 w-auto shadow-sm ml-3 flex-1"
               />
             </div>
+            <button
+              onClick={ImgChange}
+              className="bg-blue-500 text-white self-end w-40 h-10 rounded-md "
+            >
+              save changes
+            </button>
           </div>
         </div>
       </div>
