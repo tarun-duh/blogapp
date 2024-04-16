@@ -89,7 +89,7 @@ export default function blog() {
   return (
     <Layout>
       <div className="bg-white">
-        <div className="0 mt-20 w-full md:flex lg:flex flex-wrap lg:pr-4 lg:pl-8 p-3 md:pt-6  gap-3 ">
+        <div className="0 mt-20 w-full md:flex lg:flex flex-wrap lg:pr-4 lg:pl-8 p-3 md:pt-6  gap-3 pb-6">
           {postList.map((post, index) => (
             <BlogPosts
               key={index}

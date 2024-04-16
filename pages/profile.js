@@ -53,7 +53,14 @@ export default function profile() {
             ...doc.data(),
             id: doc.id,
           }));
-          setPostList(filterData);
+          console.log(filterData, "hey");
+          let newfilterdata = filterData.filter((x, i, arr) => {
+            if (x.useremail == auth?.currentUser?.email) {
+              return x;
+            }
+          });
+          console.log(newfilterdata, auth?.currentUser?.email);
+          setPostList(newfilterdata);
           let usersdata = await getDocs(userCollections);
           const filterUsers = usersdata.docs.map((doc) => ({
             ...doc.data(),
@@ -80,7 +87,6 @@ export default function profile() {
             setName(i.username);
           }
         }
-        console.log(filterData);
       } catch (err) {
         console.log(err);
       }
@@ -138,7 +144,8 @@ export default function profile() {
         backgroundImg={backgroundImg}
       />
       <div className="">
-        <div className="0  w-full md:flex lg:flex flex-wrap lg:pr-4 lg:pl-8 p-3 md:pt-6  gap-3 ">
+        <h1 className="text-2xl text-gray-500 lg:pl-8 pt-10 ">Your posts</h1>
+        <div className="0  w-full md:flex lg:flex flex-wrap lg:pr-4 lg:pl-8 p-3 pb-10  gap-3 ">
           {postList.map((post, index) => (
             <BlogPosts
               key={index}
