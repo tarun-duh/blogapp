@@ -40,7 +40,6 @@ export default function blog() {
         for (let i of filterData) {
           if (auth?.currentUser?.email == i.email) {
             setProfile(i.userPfp);
-            console.log(profile, "hey", i.userPfp);
             let listData = await getDocs(postcollections);
             const filterData = listData.docs.map((doc) => ({
               ...doc.data(),
@@ -49,7 +48,6 @@ export default function blog() {
             for (let j of filterData) {
               if (j.useremail == auth?.currentUser?.email) {
                 const userphoto = doc(database, "post", j.id);
-                console.log(userphoto, j.id);
                 await updateDoc(userphoto, {
                   profile: i.userPfp,
                   author: i.username,
@@ -58,7 +56,6 @@ export default function blog() {
             }
           }
         }
-        console.log(filterData);
       } catch (err) {
         console.log(err);
       }
@@ -71,6 +68,8 @@ export default function blog() {
           ...doc.data(),
           id: doc.id,
         }));
+        filterData.sort((a, b) => new Date(b.date) - new Date(a.date));
+        console.log(filterData);
         setPostList(filterData);
         let usersdata = await getDocs(userCollections);
         const filterUsers = usersdata.docs.map((doc) => ({

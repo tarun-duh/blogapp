@@ -11,6 +11,7 @@ import { auth, googleProvider, database } from "../firebase/firebaseConfig";
 import Layout from "./Layout";
 import { getDocs, collection } from "firebase/firestore";
 import BlogPosts from "./BlogPosts";
+import background from "../public/background1.jpg";
 
 export default function Main() {
   const router = useRouter();
@@ -38,12 +39,8 @@ export default function Main() {
           ...doc.data(),
           id: doc.id,
         }));
+        filterData.sort((a, b) => new Date(b.date) - new Date(a.date));
         setPostList(filterData);
-        // let usersdata = await getDocs(userCollections);
-        // const filterUsers = usersdata.docs.map((doc) => ({
-        //   ...doc.data(),
-        //   id: doc.id,
-        // }));
       } catch (err) {
         console.error("Error getting documents: ", err);
       }
@@ -65,37 +62,33 @@ export default function Main() {
   return (
     <Layout login={login} signup={signup}>
       <div className="w-full h-screen ">
-        <div className="md:h-3/4 h-96  md:pt-28 md:px-11 pt-10 px-5 pb-6 w-full flex  justify-center   ">
-          <div className="flex h-full w-full flex-col md:w-1/2 justify-center">
-            <h1 className="text-3xl font-bold md:text-6xl md:mb-2  text-orange-500">
+        <div
+          id="main"
+          className="md:h-3/4 h-96  md:pt-28 md:px-11 pt-24 px-5 pb-6 w-full flex  justify-center   "
+        >
+          <div className="over"></div>
+
+          <div className="flex h-full w-full flex-col md:w-1/2 justify-center z-10">
+            <h1 className="text-[30px] font-bold md:text-4xl md:mb-2 lg:text-6xl  text-orange-500">
               Stay curious.
             </h1>
-            <p className="text-xl mt-2 mb-4">
+            <p className="text-[20px] mt-2 mb-4 text-white">
               Discover stories, thinking, and expertise from writers on any
               topic.
             </p>
             <div>
               <a
                 onClick={signup}
-                className="inline-block cursor-pointer text-white font-medium py-2 px-6 rounded-full bg-gradient-to-r from-pink-500 to-purple-800 border border-transparent transform hover:scale-110 hover:border-white transition-transform duration-3000 ease-in-out"
+                className="inline-block cursor-pointer text-white font-medium py-2 px-6 rounded-full bg-gradient-to-r from-pink-500 to-purple-800 border border-transparent transform hover:scale-110 hover:border-white transition-transform duration-3000 ease-in-out text-[18px]"
               >
                 Start reading
               </a>
             </div>
           </div>
-          <div className="hidden w-3/5 h-full md:flex justify-end items-center">
-            <Image
-              className="w-96 md:w-2/3"
-              priority={true}
-              src={blog}
-              alt="My Image"
-              width={"auto"}
-              height={350}
-            />
-          </div>
+          <div className="w-1/2 hidden sm:block"></div>
         </div>
-        <div className="text-xl">
-          what's trending on Blogyou
+        <div className="md:p-10 sm:p-6 p-4 ">
+          <h1 className="sm:text-2xl mb-3">what's trending on Blogyou</h1>
           <div className="z-0 mt-20 w-full md:flex lg:flex flex-wrap lg:pr-4 lg:pl-8 p-3 md:pt-6  gap-3 ">
             {postList.map((post, index) => (
               <BlogPosts

@@ -21,6 +21,7 @@ export default function BlogPosts({
   profile = "https://cdn-icons-png.flaticon.com/512/3177/3177440.png",
 }) {
   const [like, setLike] = useState(false);
+  const [readmore, setReadMore] = useState(false);
   const [likeCount, setLikeCount] = useState(likes);
   const postCollections = collection(database, "post");
 
@@ -72,6 +73,11 @@ export default function BlogPosts({
       localStorage.removeItem(`post_${id}_liked`);
     }
   };
+
+  function readmorefunc() {
+    setReadMore((prev) => !prev);
+    console.log(readmore);
+  }
   return (
     <>
       <div className="z-0 md:p-6 p-3 mb-3 md:mb-0 lg:mb-0 lg:w-[49%] w-full overflow-hidden transition duration-300 transform hover:shadow-md hover:-translate-y-1 hover:scale-105    flex flex-col items-start bg-slate-100  rounded-lg">
@@ -83,7 +89,10 @@ export default function BlogPosts({
         </h2>
         <p className="leading-relaxed mb-8">{para}</p>
         <div className="flex items-center flex-wrap pb-4 mb-4 border-b-2 border-gray-100 mt-auto w-full">
-          <a className="text-indigo-500 inline-flex items-center cursor-pointer">
+          <a
+            onClick={readmorefunc}
+            className="text-indigo-500 inline-flex items-center cursor-pointer"
+          >
             Learn More
             <svg
               className="w-4 h-4 ml-2"

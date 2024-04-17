@@ -13,7 +13,7 @@ export default function Header({ login, signup, publish, logOut }) {
 
   return (
     <div>
-      <header className="z-10 fixed top-0 bg-white w-full shadow-sm shadow-slate-200  ">
+      <header className="z-20 fixed top-0 bg-white w-full shadow-sm shadow-slate-200  ">
         <div className=" w-full  flex  md:p-5 lg:p-5 px-3  py-5  items-center justify-between ">
           <div className="flex justify-center items-center">
             <Link

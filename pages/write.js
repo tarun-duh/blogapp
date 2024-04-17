@@ -60,9 +60,9 @@ export default function write() {
       try {
         let currentDate = new Date();
         let dateInString = currentDate.toLocaleDateString(undefined, {
-          year: "numeric",
-          month: "numeric",
           day: "numeric",
+          month: "numeric",
+          year: "numeric",
         });
         await addDoc(postCollections, {
           author: author,

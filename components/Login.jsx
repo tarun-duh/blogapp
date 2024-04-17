@@ -66,8 +66,10 @@ export default function Login({ clicked, popup }) {
           email: auth?.currentUser?.email,
           password: password,
           username: auth?.currentUser?.displayName,
-          userPfp: "asdasdasda",
-          userBg: "asdadsdasdas",
+          userPfp:
+            "https://images.pexels.com/photos/7755619/pexels-photo-7755619.jpeg?auto=compress&cs=tinysrgb&w=600",
+          userBg:
+            "https://images.pexels.com/photos/1563356/pexels-photo-1563356.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
         });
       }
       setUserId("");
@@ -146,14 +148,16 @@ export default function Login({ clicked, popup }) {
                 <label className="block text-sm font-medium leading-6 text-gray-900">
                   Password
                 </label>
-                {/* <div className="text-sm">
-              <a
-                href="#"
-                className="mx-2 font-semibold text-indigo-600 hover:text-indigo-500"
-              >
-                Forgot password?
-              </a>
-            </div> */}
+                <div className="text-sm">
+                  <a
+                    onClick={() => {
+                      router.push("/passwordreset");
+                    }}
+                    className="mx-2 font-semibold text-indigo-600 hover:text-indigo-500"
+                  >
+                    Forgot password?
+                  </a>
+                </div>
               </div>
               <div className="mt-2 relative">
                 <input

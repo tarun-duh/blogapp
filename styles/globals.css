@@ -29,7 +29,21 @@
   right: 24px;
 }
 .displayImg {
-  background: center;
   background-repeat: no-repeat;
   background-size: cover;
+}
+#main {
+  background-image: url(../public/background2.jpg);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  background-color: rgba(0, 0, 0, 0.5);
+  position: relative;
+}
+.over {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.3);
 }
