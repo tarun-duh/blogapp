@@ -1,10 +1,25 @@
 import React from "react";
 import Header from "./Header";
 
-export default function Layout({ children, login, signup, publish, logOut }) {
+export default function Layout({
+  children,
+  login,
+  signup,
+  publish,
+  logOut,
+  handleSearch,
+  searchQuery,
+}) {
   return (
     <>
-      <Header login={login} signup={signup} publish={publish} logOut={logOut} />
+      <Header
+        searchQuery={searchQuery}
+        login={login}
+        signup={signup}
+        publish={publish}
+        logOut={logOut}
+        handleSearch={handleSearch}
+      />
       <main>{children}</main>
     </>
   );

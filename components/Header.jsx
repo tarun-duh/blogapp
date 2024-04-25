@@ -7,7 +7,14 @@ import { useRouter } from "next/router";
 import { auth } from "@/firebase/firebaseConfig";
 import Link from "next/link";
 
-export default function Header({ login, signup, publish, logOut }) {
+export default function Header({
+  login,
+  signup,
+  publish,
+  logOut,
+  handleSearch,
+  searchQuery,
+}) {
   const router = useRouter();
   const currentPage = router.pathname;
 
@@ -57,8 +64,10 @@ export default function Header({ login, signup, publish, logOut }) {
             </Link>
             {currentPage === "/blog" && (
               <input
+                value={searchQuery}
                 type="text"
                 placeholder="search"
+                onChange={handleSearch}
                 className="h-auto w-auto bg-gray-100 lg:ml-6 md:ml-6  rounded-full px-3 py-2 text-sm focus:outline-none"
               />
             )}

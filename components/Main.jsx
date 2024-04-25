@@ -39,7 +39,7 @@ export default function Main() {
           ...doc.data(),
           id: doc.id,
         }));
-        filterData.sort((a, b) => new Date(b.date) - new Date(a.date));
+        filterData.sort((a, b) => b.likes - a.likes);
         setPostList(filterData);
       } catch (err) {
         console.error("Error getting documents: ", err);
@@ -88,8 +88,8 @@ export default function Main() {
           <div className="w-1/2 hidden sm:block"></div>
         </div>
         <div className="md:p-10 sm:p-6 p-4 ">
-          <h1 className="sm:text-2xl mb-3">what's trending on Blogyou</h1>
-          <div className="z-0 mt-20 w-full md:flex lg:flex flex-wrap lg:pr-4 lg:pl-8 p-3 md:pt-6  gap-3 ">
+          <h1 className="sm:text-2xl mb-3">what's trending on Blogyou?</h1>
+          <div className="z-0 w-full md:flex lg:flex flex-wrap lg:pr-4 lg:pl-0 p-3 md:pt-6  gap-3 ">
             {postList.map((post, index) => (
               <BlogPosts
                 key={index}

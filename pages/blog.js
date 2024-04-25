@@ -24,6 +24,8 @@ export default function blog() {
   const [profile, setProfile] = useState(
     "https://images.rawpixel.com/image_png_800/cHJpdmF0ZS9sci9pbWFnZXMvd2Vic2l0ZS8yMDIzLTAxL3JtNjA5LXNvbGlkaWNvbi13LTAwMi1wLnBuZw.png"
   );
+  const [searchQuery, setSearchQuery] = useState("");
+  const [filteredPosts, setFilteredPosts] = useState([]);
 
   const router = useRouter();
 
@@ -71,6 +73,7 @@ export default function blog() {
         filterData.sort((a, b) => new Date(b.date) - new Date(a.date));
         console.log(filterData);
         setPostList(filterData);
+        setFilteredPosts(filterData);
         let usersdata = await getDocs(userCollections);
         const filterUsers = usersdata.docs.map((doc) => ({
           ...doc.data(),
@@ -84,12 +87,24 @@ export default function blog() {
     getPostList();
   }, []);
 
+  const handleSearch = (e) => {
+    setSearchQuery(e.target.value);
+    console.log(searchQuery, "hey", filteredPosts);
+
+    // Filter posts based on search query and user email
+    const filtered = postList.filter((post) =>
+      post.author.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+    setFilteredPosts(filtered);
+    console.log(filteredPosts);
+  };
+
   if (typeof window !== "undefined" && !auth?.currentUser) router.push("/");
   return (
-    <Layout>
+    <Layout handleSearch={handleSearch} searchQuery={searchQuery}>
       <div className="bg-white">
         <div className="0 mt-20 w-full md:flex lg:flex flex-wrap lg:pr-4 lg:pl-8 p-3 md:pt-6  gap-3 pb-6">
-          {postList.map((post, index) => (
+          {filteredPosts.map((post, index) => (
             <BlogPosts
               key={index}
               keyId={post.id}
