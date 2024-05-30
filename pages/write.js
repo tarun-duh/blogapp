@@ -82,34 +82,36 @@ export default function write() {
   };
 
   return (
-    <Layout publish={publishfunc}>
-      <div className="h-screen w-screen">
-        <div className="w-full  h-4/5 md:pt-32 md:px-10 md:pb-10 pt-24 px-4 pb-10">
-          <input
-            className="w-full font-serif  outline-none  border-b-2 border-gray-100 p-3  break-all text-lg"
-            type="text"
-            placeholder="Category"
-            value={categoryIn}
-            onChange={(e) => setCategoryIn(e.target.value)}
-          />
-          <textarea
-            className="scrollbar-thin scrollbar-thumb-orange-500 scrollbar-track-slate-300 w-full my-2 p-3 font-serif outline-none border-b-2 border-gray-100 break-all text-2xl"
-            type="text"
-            placeholder="Title"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-          />
-          <div className="scrollbar-none w-full  h-5/6   overflow-y-scroll">
-            <textarea
-              className="scrollbar-thin scrollbar-thumb-orange-500 scrollbar-track-slate-300  h-full outline-none text-lg font-serif p-3 w-full break-all resize-none"
+    <>
+      <Layout publish={publishfunc}>
+        <div className="h-screen w-screen">
+          <div className="w-full  h-4/5 md:pt-32 md:px-10 md:pb-10 pt-24 px-4 pb-10">
+            <input
+              className="w-full font-serif  outline-none  border-b-2 border-gray-100 p-3  break-all text-lg"
               type="text"
-              placeholder="Tell your story…"
-              value={paraIn}
-              onChange={(e) => setParaIn(e.target.value)}
+              placeholder="Category"
+              value={categoryIn}
+              onChange={(e) => setCategoryIn(e.target.value)}
             />
+            <textarea
+              className="scrollbar-thin scrollbar-thumb-orange-500 scrollbar-track-slate-300 w-full my-2 p-3 font-serif outline-none border-b-2 border-gray-100 break-all text-2xl"
+              type="text"
+              placeholder="Title"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+            />
+            <div className="scrollbar-none w-full  h-5/6   overflow-y-scroll">
+              <textarea
+                className="scrollbar-thin scrollbar-thumb-orange-500 scrollbar-track-slate-300  h-full outline-none text-lg font-serif p-3 w-full break-all resize-none"
+                type="text"
+                placeholder="Tell your story…"
+                value={paraIn}
+                onChange={(e) => setParaIn(e.target.value)}
+              />
+            </div>
           </div>
         </div>
-      </div>
-    </Layout>
+      </Layout>
+    </>
   );
 }

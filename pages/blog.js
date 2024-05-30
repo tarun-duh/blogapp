@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { signOut } from "firebase/auth";
 import { useRouter } from "next/router";
 import { auth, database } from "../firebase/firebaseConfig";
@@ -8,6 +8,8 @@ import { FaUserCircle } from "react-icons/fa";
 import { FaRegEdit } from "react-icons/fa";
 import { IoSearch } from "react-icons/io5";
 import BlogPosts from "@/components/BlogPosts";
+import ContextProvider from "@/context/ContextProvider";
+
 import {
   getDocs,
   collection,
@@ -16,6 +18,7 @@ import {
   doc,
 } from "firebase/firestore";
 import Layout from "@/components/Layout";
+import userContext from "@/context/userContext";
 
 export default function blog() {
   const [postList, setPostList] = useState([]);
@@ -101,24 +104,26 @@ export default function blog() {
 
   if (typeof window !== "undefined" && !auth?.currentUser) router.push("/");
   return (
-    <Layout handleSearch={handleSearch} searchQuery={searchQuery}>
-      <div className="bg-white">
-        <div className="0 mt-20 w-full md:flex lg:flex flex-wrap lg:pr-4 lg:pl-8 p-3 md:pt-6  gap-3 pb-6">
-          {filteredPosts.map((post, index) => (
-            <BlogPosts
-              key={index}
-              keyId={post.id}
-              category={post.category}
-              heading={post.heading}
-              para={post.paragraph}
-              author={post.author}
-              date={post.date}
-              profile={post.profile}
-              likes={post.likes}
-            />
-          ))}
+    <>
+      <Layout handleSearch={handleSearch} searchQuery={searchQuery}>
+        <div className="bg-white">
+          <div className="0 mt-20 w-full md:flex lg:flex flex-wrap lg:pr-4 lg:pl-8 p-3 md:pt-6  gap-3 pb-6">
+            {filteredPosts.map((post, index) => (
+              <BlogPosts
+                key={index}
+                keyId={post.id}
+                category={post.category}
+                heading={post.heading}
+                para={post.paragraph}
+                author={post.author}
+                date={post.date}
+                profile={post.profile}
+                likes={post.likes}
+              />
+            ))}
+          </div>
         </div>
-      </div>
-    </Layout>
+      </Layout>
+    </>
   );
 }

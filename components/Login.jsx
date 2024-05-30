@@ -10,6 +10,8 @@ import { signInWithPopup, signInWithEmailAndPassword } from "firebase/auth";
 import { auth, googleProvider, database } from "../firebase/firebaseConfig";
 import { collection, addDoc, getDocs } from "firebase/firestore";
 import { useRef } from "react";
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
 
 export default function Login({ clicked, popup }) {
   const router = useRouter();
@@ -27,6 +29,14 @@ export default function Login({ clicked, popup }) {
   //   auth?.currentUser && router.push("blog");
   // }, [auth?.currentUser]);
 
+  //animations
+  useGSAP(() => {
+    gsap.to("#loginBox", {
+      x: 0,
+      ease: "power2.inOut",
+      duration: 1,
+    });
+  }, []);
   const signIn = async () => {
     try {
       await signInWithEmailAndPassword(auth, userId, password);
@@ -98,8 +108,11 @@ export default function Login({ clicked, popup }) {
   return (
     <>
       <div ref={divref} className="overlay">
-        <div className="flex justify-center items-center  h-screen w-screen  ">
-          <div className="shadow-2xl md:px-6 pt-12 pb-6 px-5  rounded-lg flex flex-col justify-center items-center h-fit md:w-1/2 lg:w-1/4 w-80 bg-white text-white overflow-hidden relative ease-in ">
+        <div className="flex  justify-center items-center  h-screen w-screen  ">
+          <div
+            id="loginBox"
+            className="translate-x-[100vw] shadow-2xl md:px-6 pt-12 pb-6 px-5  rounded-lg flex flex-col justify-center items-center h-fit md:w-1/2 lg:w-1/4 w-80 bg-white text-white overflow-hidden relative ease-in "
+          >
             <IoMdClose
               onClick={() => {
                 setPassword("");

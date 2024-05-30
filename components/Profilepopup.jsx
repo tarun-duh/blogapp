@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { IoCloseSharp } from "react-icons/io5";
 import { storage, database, auth } from "../firebase/firebaseConfig";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
@@ -10,13 +10,11 @@ import {
   updateDoc,
   doc,
 } from "firebase/firestore";
+import userContext from "@/context/userContext";
 
-export default function Profilepopup({
-  active,
-  closefunc,
-  profile,
-  backgroundImg,
-}) {
+export default function Profilepopup({ active, closefunc }) {
+  let { backgroundImg, setBackgroundImg, profile, setProfile, getUserData } =
+    useContext(userContext);
   const userCollections = collection(database, "users");
   const [imageBg, setImageBg] = useState(null);
   const [imagePfp, setImagePfp] = useState(null);
@@ -91,7 +89,10 @@ export default function Profilepopup({
             });
           }
         }
+        setName(" ");
+        setLastName(" ");
         alert("Username updated");
+        getUserData();
       }
     } catch (err) {
       console.log(err);
@@ -102,14 +103,14 @@ export default function Profilepopup({
 
   return (
     <div className="overlay ">
-      <div className="relative h-2/3 w-3/4 bg-white ">
+      <div className="relative md:h-2/3 h-[550px] w-5/6 bg-white ">
         <div className=" h-6 w-6 absolute top-2 right-2 z-20 cursor-pointer  ">
           <IoCloseSharp
             className="text-2xl text-white z-10 border-2 bg-black"
             onClick={() => {
               closefunc();
-              setLastName("");
-              setName("");
+              setLastName(" ");
+              setName(" ");
             }}
           />
         </div>
@@ -123,7 +124,7 @@ export default function Profilepopup({
         />
         <div
           style={{ backgroundImage: `url(${newBg})` }}
-          className="h-1/2 w-full overflow-hidden relative bg-cover bg-center bg-red-400"
+          className="h-1/3 md:h-1/2 w-full overflow-hidden relative bg-cover bg-center bg-red-400"
         >
           <label htmlFor="bgPic">
             <div className="h-[50px]  shadow-sm shadow-white transition duration-300 hover:scale-105 hover: w-[165px] flex justify-center items-center  bg-black bg-opacity-40 text-white   translate(-50%, -50%) -translate-x-1/2 -translate-y-1/2  rounded-full  absolute top-1/2 left-1/2  ">
@@ -131,8 +132,8 @@ export default function Profilepopup({
             </div>
           </label>
         </div>
-        <div className="h-1/2 w-full bg-gray-300 flex">
-          <div className="w-1/2 bg-red-50 flex justify-center items-center p-2">
+        <div className="h-2/3 md:h-1/2 w-full bg-gray-300 md:flex">
+          <div className="w-full md:w-1/2 h-1/3 md:h-full  bg-red-50 flex justify-center items-center p-2">
             <input
               id="pfp"
               type="file"
@@ -152,12 +153,12 @@ export default function Profilepopup({
               </label>
             </div>
           </div>
-          <div className="w-1/2 h-full flex flex-col justify-between  p-4 bg-gray-50">
-            <h1 className="text-2xl text-gray-500 text-center text">
+          <div className="w-full md:w-1/2 md:h-full h-2/3  flex flex-col justify-between  p-4 bg-gray-50">
+            <h1 className="md:text-2xl text-lg text-gray-500 text-center text">
               This will be your new username
             </h1>
             <div className="flex w-full p-3 items-center">
-              <label htmlFor="name" className="w-auto">
+              <label htmlFor="name" className="w-auto text-sm">
                 Name:
               </label>
               <input
@@ -171,7 +172,7 @@ export default function Profilepopup({
               />
             </div>
             <div className="flex w-full p-3 items-center ">
-              <label htmlFor="last name" className="">
+              <label htmlFor="last name" className="text-sm">
                 Last Name:
               </label>
               <input

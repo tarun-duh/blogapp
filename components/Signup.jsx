@@ -8,6 +8,8 @@ import { auth, database, googleProvider } from "../firebase/firebaseConfig";
 import { IoMdEye } from "react-icons/io";
 import Login from "./Login";
 import { collection, addDoc, getDocs } from "firebase/firestore";
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
 
 export default function Signup({ clicked, popup }) {
   const router = useRouter();
@@ -23,8 +25,14 @@ export default function Signup({ clicked, popup }) {
   const divref = useRef(null);
   const userCollections = collection(database, "users");
 
-  //current user
-  // console.log(auth?.currentUser?.email);
+  //animation
+  useGSAP(() => {
+    gsap.to("#singUpBox", {
+      x: 0,
+      ease: "power2.inOut",
+      duration: 1,
+    });
+  }, []);
 
   //sign up function
   const signUp = async () => {
@@ -93,7 +101,10 @@ export default function Signup({ clicked, popup }) {
         ref={divref}
         className="overlay flex justify-center items-center w-screen h-screen"
       >
-        <div className="relative shadow-2xl md:p-6 p-5 rounded-lg flex flex-col justify-center items-center h-fit md:w-1/2 lg:w-1/4 w-80 bg-white text-black overflow-hidden">
+        <div
+          id="singUpBox"
+          className="relative translate-x-[100vw] shadow-2xl md:p-6 p-5 rounded-lg flex flex-col justify-center items-center h-fit md:w-1/2 lg:w-1/4 w-80 bg-white text-black overflow-hidden"
+        >
           <IoMdClose
             onClick={() => {
               setFirstName("");
