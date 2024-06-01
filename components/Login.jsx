@@ -70,7 +70,6 @@ export default function Login({ clicked, popup }) {
 
       //checking if the user that just logged in is already in the database or not
       if (!arr.includes(auth?.currentUser?.email)) {
-        console.log("not includes");
         await addDoc(userCollections, {
           email: auth?.currentUser?.email,
           password: password,

@@ -63,13 +63,11 @@ export default function profile() {
             ...doc.data(),
             id: doc.id,
           }));
-          console.log(filterData, "hey");
           let newfilterdata = filterData.filter((x, i, arr) => {
             if (x.useremail == auth?.currentUser?.email) {
               return x;
             }
           });
-          console.log(newfilterdata, auth?.currentUser?.email);
           setPostList(newfilterdata);
           let usersdata = await getDocs(userCollections);
           const filterUsers = usersdata.docs.map((doc) => ({

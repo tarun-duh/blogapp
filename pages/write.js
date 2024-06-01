@@ -38,12 +38,10 @@ export default function write() {
 
         for (let i of filterData) {
           if (auth?.currentUser?.email == i.email) {
-            console.log(i.email, "hey");
             setProfile(i.userPfp);
             setAuthor(i.username);
           }
         }
-        console.log(filterData);
       } catch (err) {
         console.log(err);
       }
@@ -53,7 +51,6 @@ export default function write() {
   }, []);
 
   const publishfunc = async () => {
-    console.log("puplish funct");
     if (title.length < 1 || paraIn.length < 1 || categoryIn.length < 1) {
       alert("please fill the inputs");
     } else {

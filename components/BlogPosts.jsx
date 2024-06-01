@@ -69,7 +69,6 @@ export default function BlogPosts({
 
   function readmorefunc() {
     setReadMore((prev) => !prev);
-    console.log(readmore);
   }
   return (
     <>

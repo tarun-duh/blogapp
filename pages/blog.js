@@ -59,7 +59,6 @@ export default function blog() {
           id: doc.id,
         }));
         filterData.sort((a, b) => new Date(b.date) - new Date(a.date));
-        console.log(filterData);
         setPostList(filterData);
         setFilteredPosts(filterData);
         let usersdata = await getDocs(userCollections);

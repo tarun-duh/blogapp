@@ -40,13 +40,11 @@ export default function Profilepopup({ active, closefunc }) {
   useEffect(() => {
     if (imagePfp != null) {
       let pfpUrl = URL.createObjectURL(imagePfp);
-      console.log("pfp changed");
       setPfp(pfpUrl);
     }
 
     if (imageBg != null) {
       let bgUrl = URL.createObjectURL(imageBg);
-      console.log("bg changed");
       setNewBg(bgUrl);
     }
   }, [imageBg, imagePfp]);
