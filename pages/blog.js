@@ -1,24 +1,9 @@
-import React, { useContext, useEffect, useState } from "react";
-import { signOut } from "firebase/auth";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { auth, database } from "../firebase/firebaseConfig";
-import Image from "next/image";
-import blogyou from "../public/images/newlogo.png";
-import { FaUserCircle } from "react-icons/fa";
-import { FaRegEdit } from "react-icons/fa";
-import { IoSearch } from "react-icons/io5";
 import BlogPosts from "@/components/BlogPosts";
-import ContextProvider from "@/context/ContextProvider";
-
-import {
-  getDocs,
-  collection,
-  addDoc,
-  updateDoc,
-  doc,
-} from "firebase/firestore";
+import { getDocs, collection, updateDoc, doc } from "firebase/firestore";
 import Layout from "@/components/Layout";
-import userContext from "@/context/userContext";
 
 export default function blog() {
   const [postList, setPostList] = useState([]);
@@ -92,14 +77,12 @@ export default function blog() {
 
   const handleSearch = (e) => {
     setSearchQuery(e.target.value);
-    console.log(searchQuery, "hey", filteredPosts);
 
     // Filter posts based on search query and user email
     const filtered = postList.filter((post) =>
       post.author.toLowerCase().includes(searchQuery.toLowerCase())
     );
     setFilteredPosts(filtered);
-    console.log(filteredPosts);
   };
 
   if (typeof window !== "undefined" && !auth?.currentUser) router.push("/");

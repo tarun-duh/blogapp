@@ -11,6 +11,8 @@ import {
   doc,
 } from "firebase/firestore";
 import userContext from "@/context/userContext";
+import gsap from "gsap";
+import { useGSAP } from "@gsap/react";
 
 export default function Profilepopup({ active, closefunc }) {
   let { backgroundImg, setBackgroundImg, profile, setProfile, getUserData } =
@@ -22,6 +24,18 @@ export default function Profilepopup({ active, closefunc }) {
   const [lastName, setLastName] = useState("");
   const [pfp, setPfp] = useState(profile);
   const [newBg, setNewBg] = useState(backgroundImg);
+
+  //animation
+  //animations
+  useEffect(() => {
+    if (active) {
+      gsap.fromTo(
+        "#popupBox",
+        { x: "100vw" },
+        { x: 0, ease: "power2.inOut", duration: 1 }
+      );
+    }
+  }, [active]);
 
   useEffect(() => {
     if (imagePfp != null) {
@@ -103,7 +117,10 @@ export default function Profilepopup({ active, closefunc }) {
 
   return (
     <div className="overlay ">
-      <div className="relative md:h-2/3 h-[550px] w-5/6 bg-white ">
+      <div
+        id="popupBox"
+        className="translate-x-[100vw] relative md:h-2/3 h-[550px] w-5/6 md:w-2/3 bg-white "
+      >
         <div className=" h-6 w-6 absolute top-2 right-2 z-20 cursor-pointer  ">
           <IoCloseSharp
             className="text-2xl text-white z-10 border-2 bg-black"

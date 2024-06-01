@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { IoMdClose } from "react-icons/io";
@@ -26,13 +26,15 @@ export default function Signup({ clicked, popup }) {
   const userCollections = collection(database, "users");
 
   //animation
-  useGSAP(() => {
-    gsap.to("#singUpBox", {
-      x: 0,
-      ease: "power2.inOut",
-      duration: 1,
-    });
-  }, []);
+  useEffect(() => {
+    if (clicked) {
+      gsap.fromTo(
+        "#singUpBox",
+        { x: "100vw" },
+        { x: 0, ease: "power2.inOut", duration: 1 }
+      );
+    }
+  }, [clicked]);
 
   //sign up function
   const signUp = async () => {

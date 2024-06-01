@@ -43,8 +43,6 @@ const ContextProvider = ({ children }) => {
     getUserData();
   }, []);
 
-  console.log(backgroundImg, profile, name);
-
   return (
     <userContext.Provider
       value={{

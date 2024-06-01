@@ -22,7 +22,7 @@ export default function passwordreset() {
   }
   return (
     <div className="overlay flex justify-center items-center">
-      <div className="bg-white h-fit sm:w-[400px] md:w-[500px] lg:w-[500px] py-10 lg:p-6 md:p-5 sm:p-3 px-4 w-[330px] flex flex-col relative">
+      <div className="bg-white rounded-lg h-fit sm:w-[400px] md:w-[500px] lg:w-[500px] py-10 lg:p-6 md:p-5 sm:p-3 px-4 w-[330px] flex flex-col relative">
         <IoMdClose
           onClick={() => {
             setEmail("");

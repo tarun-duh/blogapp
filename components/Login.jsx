@@ -1,6 +1,6 @@
 import Head from "next/head";
 import { useRouter } from "next/router";
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import { FcGoogle } from "react-icons/fc";
 import { IoMdClose } from "react-icons/io";
@@ -25,18 +25,17 @@ export default function Login({ clicked, popup }) {
   const userCollections = collection(database, "users");
 
   const divref = useRef(null);
-  // useEffect(() => {
-  //   auth?.currentUser && router.push("blog");
-  // }, [auth?.currentUser]);
 
   //animations
-  useGSAP(() => {
-    gsap.to("#loginBox", {
-      x: 0,
-      ease: "power2.inOut",
-      duration: 1,
-    });
-  }, []);
+  useEffect(() => {
+    if (clicked) {
+      gsap.fromTo(
+        "#loginBox",
+        { x: "100vw" },
+        { x: 0, ease: "power2.inOut", duration: 1 }
+      );
+    }
+  }, [clicked]);
   const signIn = async () => {
     try {
       await signInWithEmailAndPassword(auth, userId, password);
@@ -111,7 +110,7 @@ export default function Login({ clicked, popup }) {
         <div className="flex  justify-center items-center  h-screen w-screen  ">
           <div
             id="loginBox"
-            className="translate-x-[100vw] shadow-2xl md:px-6 pt-12 pb-6 px-5  rounded-lg flex flex-col justify-center items-center h-fit md:w-1/2 lg:w-1/4 w-80 bg-white text-white overflow-hidden relative ease-in "
+            className="translate-x-[100vw] shadow-2xl md:px-6 pt-12 pb-6 px-5  rounded-lg flex flex-col justify-center items-center h-fit md:w-1/2 lg:w-1/4 w-80 bg-white text-white overflow-hidden relative  "
           >
             <IoMdClose
               onClick={() => {
