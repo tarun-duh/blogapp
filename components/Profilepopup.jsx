@@ -3,20 +3,13 @@ import { IoCloseSharp } from "react-icons/io5";
 import { storage, database, auth } from "../firebase/firebaseConfig";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { v4 } from "uuid";
-import {
-  addDoc,
-  collection,
-  getDocs,
-  updateDoc,
-  doc,
-} from "firebase/firestore";
+import { collection, getDocs, updateDoc, doc } from "firebase/firestore";
 import userContext from "@/context/userContext";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 
 export default function Profilepopup({ active, closefunc }) {
-  let { backgroundImg, setBackgroundImg, profile, setProfile, getUserData } =
-    useContext(userContext);
+  let { backgroundImg, profile, getUserData } = useContext(userContext);
   const userCollections = collection(database, "users");
   const [imageBg, setImageBg] = useState(null);
   const [imagePfp, setImagePfp] = useState(null);
@@ -25,7 +18,6 @@ export default function Profilepopup({ active, closefunc }) {
   const [pfp, setPfp] = useState(profile);
   const [newBg, setNewBg] = useState(backgroundImg);
 
-  //animation
   //animations
   useEffect(() => {
     if (active) {

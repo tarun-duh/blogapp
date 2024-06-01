@@ -1,14 +1,12 @@
 import React, { useEffect } from "react";
-import Head from "next/head";
 import { useRouter } from "next/router";
 import { IoMdClose } from "react-icons/io";
 import { useState, useRef } from "react";
 import { createUserWithEmailAndPassword, signOut } from "firebase/auth";
-import { auth, database, googleProvider } from "../firebase/firebaseConfig";
+import { auth, database } from "../firebase/firebaseConfig";
 import { IoMdEye } from "react-icons/io";
 import Login from "./Login";
-import { collection, addDoc, getDocs } from "firebase/firestore";
-import { useGSAP } from "@gsap/react";
+import { collection, addDoc } from "firebase/firestore";
 import gsap from "gsap";
 
 export default function Signup({ clicked, popup }) {

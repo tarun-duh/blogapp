@@ -7,7 +7,6 @@ import { auth, googleProvider, database } from "../firebase/firebaseConfig";
 import Layout from "./Layout";
 import { getDocs, collection } from "firebase/firestore";
 import BlogPosts from "./BlogPosts";
-import background from "../public/background1.jpg";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 // gsap.registerPlugin(ScrollTrigger);
@@ -19,8 +18,6 @@ export default function Main() {
 
   const [loginClicked, setLoginCliked] = useState(false);
   const [signupClicked, setSignupCliked] = useState(false);
-  const [hamburgerOn, setfirstHamburgerOn] = useState(false);
-  // const { setPostList, postList } = useContext(UserContext);
 
   //timeline for animations
   let timeline = gsap.timeline({});

@@ -7,38 +7,19 @@ import { MdModeEdit } from "react-icons/md";
 import { database } from "@/firebase/firebaseConfig";
 import Profilepopup from "@/components/Profilepopup";
 import BlogPosts from "@/components/BlogPosts";
+import gsap from "gsap";
+import { useGSAP } from "@gsap/react";
 
-import {
-  addDoc,
-  collection,
-  getDocs,
-  updateDoc,
-  doc,
-} from "firebase/firestore";
+import { collection, getDocs } from "firebase/firestore";
 import userContext from "@/context/userContext";
 
 export default function profile() {
-  let {
-    backgroundImg,
-    setBackgroundImg,
-    profile,
-    setProfile,
-    name,
-    setName,
-    getUserData,
-  } = useContext(userContext);
+  let { backgroundImg, profile, name, getUserData } = useContext(userContext);
   const userCollections = collection(database, "users");
   const postcollections = collection(database, "post");
 
   const router = useRouter();
   const [postList, setPostList] = useState([]);
-  // const [name, setName] = useState("Anonymous");
-  // const [profile, setProfile] = useState(
-  //   "https://images.pexels.com/photos/7755619/pexels-photo-7755619.jpeg?auto=compress&cs=tinysrgb&w=600"
-  // );
-  // const [backgroundImg, setBackgroundImg] = useState(
-  //   "https://images.pexels.com/photos/17096705/pexels-photo-17096705/free-photo-of-sereno.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-  // );
   const [email, setEmail] = useState(null);
   const [editClicked, setEditClicked] = useState(false);
 
@@ -50,6 +31,15 @@ export default function profile() {
       console.log(err);
     }
   };
+
+  //animation
+  useGSAP(() => {
+    gsap.to(".heading", {
+      opacity: 1,
+      duration: 1,
+      y: 0,
+    });
+  });
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
@@ -80,25 +70,6 @@ export default function profile() {
       };
       getPostList();
     });
-    // let getUserDate = async () => {
-    //   try {
-    //     let listData = await getDocs(userCollections);
-    //     const filterData = listData.docs.map((doc) => ({
-    //       ...doc.data(),
-    //       id: doc.id,
-    //     }));
-
-    //     for (let i of filterData) {
-    //       if (auth?.currentUser?.email == i.email) {
-    //         setProfile(i.userPfp);
-    //         setBackgroundImg(i.userBg);
-    //         setName(i.username);
-    //       }
-    //     }
-    //   } catch (err) {
-    //     console.log(err);
-    //   }
-    // };
     getUserData();
     return () => unsubscribe();
   }, [editClicked]);
@@ -145,8 +116,10 @@ export default function profile() {
           profile={profile}
           backgroundImg={backgroundImg}
         />
-        <div className="">
-          <h1 className="text-2xl text-gray-500 lg:pl-8 pt-10 ">Your posts</h1>
+        <div className="p-2">
+          <h1 className="text-2xl font-semibold md:text-4xl mb-3 heading  opacity-0 translate-y-10 text-blue-500  md:pt-10 pt-4 px-3 md:px-8 ">
+            Your posts
+          </h1>
           <div className="0  w-full md:flex lg:flex flex-wrap lg:pr-4 lg:pl-8 p-3 pb-10  gap-3 ">
             {postList.map((post, index) => (
               <BlogPosts
